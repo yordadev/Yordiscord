@@ -15,9 +15,7 @@
         "laravel/framework": "^7.0",
         "laravel/socialite": "^4.3",
         "laravel/tinker": "^2.0",
-        "more-cores/laravel-restcord": "2.*",
-        "revolution/socialite-discord": "^1.2",
-        "socialiteproviders/discord": "^2.0"
+        "more-cores/laravel-restcord": "2.*"
     },
     "require-dev": {
         "facade/ignition": "^2.0",

@@ -18,5 +18,5 @@ Route::get('/', function () {
 });
 
 
-Route::get('oauth/discord', 'SocialiteController@login');
-Route::get('oauth/discord/callback', 'SocialiteController@callback');
+Route::get('oauth/discord', 'Auth\DiscordAuthentication@redirectUser')->name('discord.login');
+Route::get('oauth/discord/callback', 'Auth\DiscordAuthentication@callback');
