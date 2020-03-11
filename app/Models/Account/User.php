@@ -48,6 +48,6 @@ class User extends Authenticatable
 
     public function grantedAccess()
     {
-        return $this->hasOne(DiscordAccess::class, 'discord_id', 'discord_id')->first();
+        return $this->hasOne(DiscordAccess::class, 'discord_id', 'discord_id');
     }
 }

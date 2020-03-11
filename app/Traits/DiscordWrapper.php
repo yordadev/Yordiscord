@@ -3,6 +3,7 @@
 namespace App\Traits;
 
 use GuzzleHttp\Client;
+use RestCord\DiscordClient;
 use App\Traits\Discord\AccountLibrary;
 
 trait DiscordWrapper
@@ -47,21 +48,25 @@ trait DiscordWrapper
         return new Client(['base_uri' => $this->base_uri]);
     }
 
-    private function sendAPIRequest($method, $path, $params, $headers = [])
+    public function sendAPIRequest($method, $path, $params, $headers = [])
     {
         switch ($method) {
             case ('GET'):
-                return $this->discordClient()->request($method, $path, [
+                return json_decode($this->discordClient()->request($method, $path, [
                     'query' => $params,
                     'headers'     => $headers,
-                ]);
+                ])->getBody()->getContents());
             case ('POST'):
-                return $this->discordClient()->request($method, $path, [
+                return json_decode($this->discordClient()->request($method, $path, [
                     'form_params' => $params,
                     'headers'     => $headers,
-                ]);
+                ])->getBody()->getContents());
             default:
                 return null;
         }
+    }
+
+    public function botClient(){
+        return new DiscordClient(['token' => config('services.discord.token')]);
     }
 }

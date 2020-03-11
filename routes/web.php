@@ -29,3 +29,18 @@ Route::middleware(['auth:web'])->group(function () {
     Route::get('logout', 'Auth\Logout@process')->name('logout');
 });
 
+Route::get('{guild_id}', 'Features\Whois@guild')->name('feature.whois.guild');
+
+Route::prefix('v1/', function(){
+    Route::prefix('who/g/', function(){
+
+
+        Route::prefix('who/g/{guild_id}/u/', function(){
+            Route::get('{discord_id}', 'Features\Whois@user')->name('feature.whois.user');
+        });
+
+    });
+
+    
+});
+

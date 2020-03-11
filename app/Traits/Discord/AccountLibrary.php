@@ -14,4 +14,10 @@ trait AccountLibrary
             'Authorization' => 'Bearer ' . $token
         ])->getBody()->getContents());
     }
+
+    public function fetchAccountGuilds($token){
+        return json_decode($this->sendAPIRequest('GET', 'users/@me/guilds', [], [
+            'Authorization' => 'Bearer ' . $token
+        ])->getBody()->getContents());
+    }
 }

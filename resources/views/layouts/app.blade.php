@@ -11,9 +11,11 @@
     <link href="https://fonts.googleapis.com/css?family=Quicksand:400,500,600,700&display=swap" rel="stylesheet">
     <link href="{{ asset('bootstrap/css/bootstrap.min.css') }}" rel="stylesheet" type="text/css" />
     <link href="{{ asset('assets/css/plugins.css') }}" rel="stylesheet" type="text/css" />
+    <link href="{{ asset('assets/css/widgets/modules-widgets.css') }}" rel="stylesheet" type="text/css" />
+
     <!-- END GLOBAL MANDATORY STYLES -->
-
-
+    <link href="assets/css/users/user-profile.css" rel="stylesheet" type="text/css">
+    <link href="assets/css/elements/infobox.css" rel="stylesheet" type="text/css">
 </head>
 
 <body class="sidebar-noneoverflow">
@@ -32,7 +34,7 @@
                 </svg></a>
 
             <div class="nav-logo align-self-center">
-                <a class="navbar-brand" href="index.html"><img alt="logo"
+                <a class="navbar-brand" href="#"><img alt="logo"
                         src="https://i.ya-webdesign.com/images/discord-logo-png-transparent-6.png"> <span
                         class="navbar-brand-name">Yordiscord</span></a>
             </div>
@@ -99,7 +101,7 @@
             <nav id="topbar">
                 <ul class="navbar-nav theme-brand flex-row  text-center">
                     <li class="nav-item theme-logo">
-                        <a href="index.html">
+                        <a href="#">
                             <img src="https://i.ya-webdesign.com/images/discord-logo-png-transparent-6.png"
                                 class="navbar-logo" alt="logo">
                         </a>
