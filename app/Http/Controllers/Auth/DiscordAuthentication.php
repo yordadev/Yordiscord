@@ -2,9 +2,12 @@
 
 namespace App\Http\Controllers\Auth;
 
-use App\Http\Controllers\Controller;
+use App\Models\Account\User;
 use Illuminate\Http\Request;
 use App\Traits\DiscordWrapper;
+use Illuminate\Support\Facades\Auth;
+use App\Http\Controllers\Controller;
+use App\Models\Account\DiscordAccess;
 
 class DiscordAuthentication extends Controller
 {
@@ -18,9 +21,75 @@ class DiscordAuthentication extends Controller
 
     public function callback(Request $request)
     {
-        if(isset($request->code)){
-            $response = $this->discordClient()->post('/oauth2/token', $this->accessTokenExchange($request->code));
-            dd($response->getBody()->getContents());
+
+        if (isset($request->code)) {
+            try {
+                $response = json_decode($this->exchangeAccessCode(
+                    'oauth2/token',
+                    $this->accessTokenExchange($request->code, $request->state),
+                    [
+                        'Content-Type' => 'application/x-www-form-urlencoded',
+                        'accept' => 'application/json'
+                    ]
+                )->getBody()->getContents());
+
+                if (isset($response->access_token)) {
+                    $user = $this->findOrCreateAccount($response);
+                    Auth::login($user);
+
+                    return redirect()->route('home');
+                }
+                return redirect()->to('/');
+            } catch (\Exception $e) {
+                dd($e->getMessage());
+            }
         }
+    }
+
+    private function findOrCreateAccount($access_response)
+    {
+        $user = $this->fetchAccountDetails($access_response->access_token);
+
+        if(!is_null($userFound = $this->findAccount(($user)))){
+            // check if need to upddate access tokens
+            if($access = $userFound->grantedAccess()){
+               if($access->access_token !== $access_response->access_token) {
+                    $access->update(collect($access_response)->toArray());
+               }
+            }
+
+            return $userFound;
+        }
+        $user = User::create([
+            'avatar'        => $user->avatar,
+            'username'      => $user->username,
+            'email'         => $user->email,
+            'discord_id'    => $user->id,
+            'discriminator' => $user->discriminator,
+            'verified'      => $user->verified,
+            'locale'        => $user->locale,
+            'mfa_enabled'   => $user->mfa_enabled,
+            'flags'         => $user->flags,
+            'premium_type'  => $user->premium_type
+        ]);
+
+        DiscordAccess::create([
+            'access_token' => $access_response->access_token,
+            'expires_in'   => $access_response->expires_in,
+            'refresh_token' => $access_response->refresh_token,
+            'scope'         => $access_response->scope,
+            'token_type'    => $access_response->token_type
+        ]);
+
+        return $user;
+    }
+
+    private function findAccount($user){
+        if($user = User::where([
+            'discord_id' => $user->id
+        ])->first()){
+            return $user;
+        }
+        return null;
     }
 }

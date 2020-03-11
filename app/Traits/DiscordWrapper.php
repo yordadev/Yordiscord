@@ -3,56 +3,68 @@
 namespace App\Traits;
 
 use GuzzleHttp\Client;
+use App\Traits\Discord\AccountLibrary;
 
-trait DiscordWrapper {
+trait DiscordWrapper
+{
 
-    protected $base_uri  = 'https://discordapp.com';
+    use AccountLibrary;
+
+    protected $base_uri  = 'https://discordapp.com/api/';
     protected $authorize = '/api/oauth2/authorize';
     protected $token = '/api/oauth2/token';
     protected $client;
 
- 
-    public function OAuthRedirectURL(){
+
+    public function OAuthRedirectURL()
+    {
         $params = array(
             'client_id' => config('services.discord.client_id'),
             'redirect_uri' => config('services.discord.redirect_uri'),
             'response_type' => 'code',
-            'scope' => 'identify guilds bot guilds.join gdm.join messages.read activities.read',
+            'scope' => 'identify guilds',
             'state' => base64_encode(\Carbon\Carbon::now()->addMinutes(15))
-          );
+        );
 
 
         return 'https://discordapp.com/api/oauth2/authorize' . '?' . http_build_query($params);
     }
 
-    public function accessTokenExchange($code){
-        $params = array(
+    public function accessTokenExchange($code, $state)
+    {
+        return array(
             'client_id'     => config('services.discord.client_id'),
-            'redirect_uri'  => config('services.discord.redirect_uri'),
-            'grant_type'    => 'authorization_code',
+            "grant_type" => "authorization_code",
             'code'          => $code,
             'client_secret' => config('services.discord.client_secret'),
-            'scope'         => 'identify guilds bot guilds.join gdm.join messages.read activities.read',
-            'state' => base64_encode(\Carbon\Carbon::now()->addMinutes(15))
+            'redirect_uri'  => config('services.discord.redirect_uri'),
+            'state'         => $state
         );
-
-        
-        
     }
 
-    protected function discordClient(){
-        return $this->client = new Client(['base_uri' => $this->base_uri]);
+    public function exchangeAccessCode($path, $params, $headers)
+    {
+        return $this->sendAPIRequest('POST', $path, $params, $headers);
     }
 
-    protected function post($path, $params, $headers = []){
-        return $this->client->request('POST', $path, [
+    private function discordClient()
+    {
+        return new Client(['base_uri' => $this->base_uri]);
+    }
+
+    private function sendAPIRequest($method, $path, $params, $headers = [])
+    {
+
+        switch($method){
+            case('GET'):
+                return $this->discordClient()->request($method, $path, [
+                    'query' => $params,
+                    'headers'     => $headers,
+                ]);
+        }
+        return $this->discordClient()->request($method, $path, [
             'form_params' => $params,
             'headers'     => $headers,
         ]);
     }
-
-    
-    
 }
-
-

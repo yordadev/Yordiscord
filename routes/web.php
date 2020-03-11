@@ -20,3 +20,12 @@ Route::get('/', function () {
 
 Route::get('oauth/discord', 'Auth\DiscordAuthentication@redirectUser')->name('discord.login');
 Route::get('oauth/discord/callback', 'Auth\DiscordAuthentication@callback');
+
+Route::middleware(['auth:web'])->group(function() {
+    Route::get('dashboard', function(){
+        dd('here');
+    })->name('home');
+
+    Route::get('logout', 'Auth\Logout@process')->name('logout');
+});
+
