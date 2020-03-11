@@ -53,11 +53,12 @@ class DiscordAuthentication extends Controller
         if(!is_null($userFound = $this->findAccount(($user)))){
             // check if need to upddate access tokens
             if($access = $userFound->grantedAccess()){
-               if($access->access_token !== $access_response->access_token) {
+                if($access->access_token !== $access_response->access_token) {
                     $access->update(collect($access_response)->toArray());
-               }
+                }
             }
-
+            
+            dd('here');
             return $userFound;
         }
         $user = User::create([
@@ -74,6 +75,7 @@ class DiscordAuthentication extends Controller
         ]);
 
         DiscordAccess::create([
+            'discord_id'   => $user->discord_id,
             'access_token' => $access_response->access_token,
             'expires_in'   => $access_response->expires_in,
             'refresh_token' => $access_response->refresh_token,

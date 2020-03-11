@@ -6,6 +6,9 @@ use Illuminate\Database\Eloquent\Model;
 
 class DiscordAccess extends Model
 {
+    protected $table = 'discord_accesses';
+    protected $primaryId = 'discord_id';
+
     protected $fillable = [
         'discord_id',
         'access_token',

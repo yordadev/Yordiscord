@@ -11,10 +11,6 @@ trait DiscordWrapper
     use AccountLibrary;
 
     protected $base_uri  = 'https://discordapp.com/api/';
-    protected $authorize = '/api/oauth2/authorize';
-    protected $token = '/api/oauth2/token';
-    protected $client;
-
 
     public function OAuthRedirectURL()
     {
@@ -25,7 +21,6 @@ trait DiscordWrapper
             'scope' => 'identify guilds',
             'state' => base64_encode(\Carbon\Carbon::now()->addMinutes(15))
         );
-
 
         return 'https://discordapp.com/api/oauth2/authorize' . '?' . http_build_query($params);
     }
@@ -54,17 +49,19 @@ trait DiscordWrapper
 
     private function sendAPIRequest($method, $path, $params, $headers = [])
     {
-
-        switch($method){
-            case('GET'):
+        switch ($method) {
+            case ('GET'):
                 return $this->discordClient()->request($method, $path, [
                     'query' => $params,
                     'headers'     => $headers,
                 ]);
+            case ('POST'):
+                return $this->discordClient()->request($method, $path, [
+                    'form_params' => $params,
+                    'headers'     => $headers,
+                ]);
+            default:
+                return null;
         }
-        return $this->discordClient()->request($method, $path, [
-            'form_params' => $params,
-            'headers'     => $headers,
-        ]);
     }
 }

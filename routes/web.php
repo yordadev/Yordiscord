@@ -15,15 +15,15 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('welcome');
-});
+})->name('landing');
 
 
 Route::get('oauth/discord', 'Auth\DiscordAuthentication@redirectUser')->name('discord.login');
 Route::get('oauth/discord/callback', 'Auth\DiscordAuthentication@callback');
 
-Route::middleware(['auth:web'])->group(function() {
-    Route::get('dashboard', function(){
-        dd('here');
+Route::middleware(['auth:web'])->group(function () {
+    Route::get('dashboard', function () {
+        return redirect()->route('landing');
     })->name('home');
 
     Route::get('logout', 'Auth\Logout@process')->name('logout');

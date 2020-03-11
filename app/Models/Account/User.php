@@ -2,8 +2,9 @@
 
 namespace App\Models\Account;
 
-use Illuminate\Foundation\Auth\User as Authenticatable;
+use App\Models\Account\DiscordAccess;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Foundation\Auth\User as Authenticatable;
 
 class User extends Authenticatable
 {
@@ -47,6 +48,6 @@ class User extends Authenticatable
 
     public function grantedAccess()
     {
-        return $this->hasOne(DiscordAccess::class, 'discord_id', 'discord_id');
+        return $this->hasOne(DiscordAccess::class, 'discord_id', 'discord_id')->first();
     }
 }

@@ -15,6 +15,7 @@ class CreateDiscordAccessesTable extends Migration
     {
         Schema::create('discord_accesses', function (Blueprint $table) {
             $table->id();
+            $table->string('discord_id');
             $table->string('access_token');
             $table->integer('expires_in');
             $table->string('refresh_token');
