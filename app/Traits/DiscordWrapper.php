@@ -21,10 +21,10 @@ trait DiscordWrapper
             'scope' => 'identify guilds',
             'state' => base64_encode(\Carbon\Carbon::now()->addMinutes(15))
         );
-
+        
         return 'https://discordapp.com/api/oauth2/authorize' . '?' . http_build_query($params);
     }
-
+    
     public function accessTokenExchange($code, $state)
     {
         return array(
