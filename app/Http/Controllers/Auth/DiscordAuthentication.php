@@ -41,7 +41,7 @@ class DiscordAuthentication extends Controller
                 }
                 return redirect()->to('/');
             } catch (\Exception $e) {
-                dd($e->getMessage());
+                return redirect()->to('/');
             }
         }
     }
