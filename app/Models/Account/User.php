@@ -2,6 +2,7 @@
 
 namespace App\Models\Account;
 
+use App\Models\Server\DiscordServer;
 use App\Models\Account\DiscordAccess;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -48,6 +49,10 @@ class User extends Authenticatable
 
     public function grantedAccess()
     {
-        return $this->hasOne(DiscordAccess::class, 'discord_id', 'discord_id');
+        return $this->hasOne(DiscordAccess::class, 'discord_id', 'discord_id')->first();
+    }
+
+    public function listedServers(){
+        return $this->hasMany(DiscordServer::class, 'discord_id', 'discord_id');
     }
 }

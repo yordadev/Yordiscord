@@ -24,14 +24,14 @@ class DiscordAuthentication extends Controller
 
         if (isset($request->code)) {
             try {
-                $response = json_decode($this->exchangeAccessCode(
+                $response = $this->exchangeAccessCode(
                     'oauth2/token',
                     $this->accessTokenExchange($request->code, $request->state),
                     [
                         'Content-Type' => 'application/x-www-form-urlencoded',
                         'accept' => 'application/json'
                     ]
-                )->getBody()->getContents());
+                );
 
                 if (isset($response->access_token)) {
                     $user = $this->findOrCreateAccount($response);
@@ -50,15 +50,15 @@ class DiscordAuthentication extends Controller
     {
         $user = $this->fetchAccountDetails($access_response->access_token);
 
-        if(!is_null($userFound = $this->findAccount(($user)))){
+        if (!is_null($userFound = $this->findAccount(($user)))) {
             // check if need to upddate access tokens
-            if($access = $userFound->grantedAccess()){
-                if($access->access_token !== $access_response->access_token) {
+            if ($access = $userFound->grantedAccess()) {
+                // access tokens found && check if they need to be updated.
+                if ($access->access_token !== $access_response->access_token) {
                     $access->update(collect($access_response)->toArray());
                 }
             }
-            
-            dd('here');
+
             return $userFound;
         }
         $user = User::create([
@@ -86,10 +86,11 @@ class DiscordAuthentication extends Controller
         return $user;
     }
 
-    private function findAccount($user){
-        if($user = User::where([
+    private function findAccount($user)
+    {
+        if ($user = User::where([
             'discord_id' => $user->id
-        ])->first()){
+        ])->first()) {
             return $user;
         }
         return null;

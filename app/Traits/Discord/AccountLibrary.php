@@ -10,14 +10,26 @@ trait AccountLibrary
 
     public function fetchAccountDetails($token)
     {
-        return json_decode($this->sendAPIRequest('GET', 'users/@me', [], [
+        return $this->sendAPIRequest('GET', 'users/@me', [], [
             'Authorization' => 'Bearer ' . $token
-        ])->getBody()->getContents());
+        ]);
     }
 
     public function fetchAccountGuilds($token){
-        return json_decode($this->sendAPIRequest('GET', 'users/@me/guilds', [], [
+        return $this->sendAPIRequest('GET', 'users/@me/guilds', [], [
             'Authorization' => 'Bearer ' . $token
-        ])->getBody()->getContents());
+        ]);
+    }
+
+    public function ownsServer($server_id, $token){
+        $servers = $this->fetchAccountGuilds($token);
+        foreach($servers as $server){
+            if($server->id === $server_id){
+                if($server->owner){
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 }

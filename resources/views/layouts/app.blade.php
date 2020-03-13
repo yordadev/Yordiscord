@@ -14,8 +14,9 @@
     <link href="{{ asset('assets/css/widgets/modules-widgets.css') }}" rel="stylesheet" type="text/css" />
 
     <!-- END GLOBAL MANDATORY STYLES -->
-    <link href="assets/css/users/user-profile.css" rel="stylesheet" type="text/css">
-    <link href="assets/css/elements/infobox.css" rel="stylesheet" type="text/css">
+    <link href="{{ asset('assets/css/users/user-profile.css') }}" rel="stylesheet" type="text/css">
+    <link href="{{ asset('assets/css/elements/infobox.css') }}" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/elements/alert.css') }}">
 </head>
 
 <body class="sidebar-noneoverflow">
@@ -34,7 +35,7 @@
                 </svg></a>
 
             <div class="nav-logo align-self-center">
-                <a class="navbar-brand" href="#"><img alt="logo"
+                <a class="navbar-brand" href="{{ route('landing') }}"><img alt="logo"
                         src="https://i.ya-webdesign.com/images/discord-logo-png-transparent-6.png"> <span
                         class="navbar-brand-name">Yordiscord</span></a>
             </div>
@@ -60,7 +61,7 @@
                         aria-labelledby="user-profile-dropdown">
                         <div class="">
                             <div class="dropdown-item">
-                                <a class="" href="#" disabled=""><svg xmlns="http://www.w3.org/2000/svg" width="24"
+                                <a class="" href="{{ route('home') }}" disabled=""><svg xmlns="http://www.w3.org/2000/svg" width="24"
                                         height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                                         stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
                                         class="feather feather-user">
@@ -101,7 +102,7 @@
             <nav id="topbar">
                 <ul class="navbar-nav theme-brand flex-row  text-center">
                     <li class="nav-item theme-logo">
-                        <a href="#">
+                        <a href="{{ route('landing') }}">
                             <img src="https://i.ya-webdesign.com/images/discord-logo-png-transparent-6.png"
                                 class="navbar-logo" alt="logo">
                         </a>
@@ -122,32 +123,7 @@
 
                     @else
 
-                    <li class="menu single-menu">
-                        <a href="#authenticate" data-toggle="collapse" aria-expanded="true"
-                            class="dropdown-toggle autodroprown">
-                            <div class="">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
-                                    fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                                    stroke-linejoin="round" class="feather feather-plus-circle">
-                                    <circle cx="12" cy="12" r="10"></circle>
-                                    <line x1="12" y1="8" x2="12" y2="16"></line>
-                                    <line x1="8" y1="12" x2="16" y2="12"></line>
-                                </svg>
-                                <span>Authenticate with Bot</span>
-                            </div>
-                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
-                                fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                                stroke-linejoin="round" class="feather feather-chevron-down">
-                                <polyline points="6 9 12 15 18 9"></polyline>
-                            </svg>
-                        </a>
-                        <ul class="collapse submenu list-unstyled" id="authenticate" data-parent="#topAccordion">
-                            <li class="active">
-                                <a href="{{ route('discord.login') }}"> Authenticate using Discord </a>
-                            </li>
-
-                        </ul>
-                    </li>
+                   
                     
                     @endauth
                 </ul>
@@ -165,8 +141,8 @@
                 <!-- CONTENT AREA -->
 
             </div>
-            <div class="footer-wrapper">
-                <div class="footer-section f-section-1">
+            <div class="footer-wrapper justify-content-center">
+                <div class="footer-section f-section-1 mr-4">
                     <p class="">Copyright © 2020 <a target="_blank" href="https://yorda.dev">Yorda</a>, All
                         rights reserved.</p>
                 </div>

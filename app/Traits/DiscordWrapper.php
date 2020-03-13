@@ -8,7 +8,6 @@ use App\Traits\Discord\AccountLibrary;
 
 trait DiscordWrapper
 {
-
     use AccountLibrary;
 
     protected $base_uri  = 'https://discordapp.com/api/';
@@ -66,7 +65,8 @@ trait DiscordWrapper
         }
     }
 
-    public function botClient(){
+    public function botClient()
+    {
         return new DiscordClient(['token' => config('services.discord.token')]);
     }
 }
