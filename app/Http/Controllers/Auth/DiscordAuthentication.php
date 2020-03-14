@@ -32,6 +32,7 @@ class DiscordAuthentication extends Controller
                     ]
                 );
 
+                dd($response);
                 if (isset($response->access_token)) {
                     $user = $this->findOrCreateAccount($response);
                     Auth::login($user);
