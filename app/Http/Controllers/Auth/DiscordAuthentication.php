@@ -21,7 +21,6 @@ class DiscordAuthentication extends Controller
 
     public function callback(Request $request)
     {
-
         if (isset($request->code)) {
             try {
                 $response = $this->exchangeAccessCode(
@@ -37,11 +36,11 @@ class DiscordAuthentication extends Controller
                     $user = $this->findOrCreateAccount($response);
                     Auth::login($user);
 
-                    return redirect()->route('home');
+                    return redirect()->route('home')->with('success', 'You have successfully authenticated with discord.');
                 }
-                return redirect()->to('/');
+                return redirect()->to('/')->withErrors(['Something went wrong, probably doing something you shouldnt tbh..']);
             } catch (\Exception $e) {
-                return redirect()->to('/');
+                return redirect()->to('/')->withErrors(['Something went wrong, probably doing something you shouldnt tbh..']);
             }
         }
     }

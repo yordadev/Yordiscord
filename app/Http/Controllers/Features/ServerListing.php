@@ -25,8 +25,6 @@ class ServerListing extends Controller
 
         $data['listed_servers'] = $this->gatherServerInfo($data['listed_servers']);
 
-
-
         return view('welcome', ['data' => $data]);
     }
 
