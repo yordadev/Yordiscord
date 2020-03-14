@@ -45,6 +45,8 @@ class DiscordAuthentication extends Controller
                 return redirect()->to('/')->withErrors(['Something went wrong, probably doing something you shouldnt tbh..']);
             }
         }
+        dd($request);
+        // ermm derppppp.
     }
 
     private function findOrCreateAccount($access_response)
