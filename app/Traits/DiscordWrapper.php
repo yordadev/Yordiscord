@@ -21,15 +21,15 @@ trait DiscordWrapper
             'scope' => 'identify guilds',
             'state' => base64_encode(\Carbon\Carbon::now()->addMinutes(15))
         );
-        
+
         return 'https://discordapp.com/api/oauth2/authorize' . '?' . http_build_query($params);
     }
-    
+
     public function accessTokenExchange($code, $state)
     {
         return array(
             'client_id'     => config('services.discord.client_id'),
-            "grant_type" => "authorization_code",
+            'grant_type' => 'authorization_code',
             'code'          => $code,
             'client_secret' => config('services.discord.client_secret'),
             'redirect_uri'  => config('services.discord.redirect_uri'),

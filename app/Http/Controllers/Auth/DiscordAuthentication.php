@@ -33,21 +33,17 @@ class DiscordAuthentication extends Controller
                 );
 
                 if (isset($response->access_token)) {
-                    dd('here');
                     $user = $this->findOrCreateAccount($response);
-                    dd($user);
                     Auth::login($user);
 
                     return redirect()->route('home')->with('success', 'You have successfully authenticated with discord.');
                 }
-                dd($response);
-                return redirect()->to('/')->withErrors(['Something went wrong, probably doing something you shouldnt tbh..']);
+                return redirect()->to('/')->withErrors(['Something went wrong.']);
             } catch (\Exception $e) {
-                dd($e);
-                return redirect()->to('/')->withErrors(['Something went wrong, probably doing something you shouldnt tbh..']);
+                return redirect()->to('/')->withErrors([$e->getMessage()]);
             }
         }
-        dd($request);
+        return redirect()->to('/')->withErrors(['Something went wrong, probably doing something you shouldnt tbh..']);
         // ermm derppppp.
     }
 
