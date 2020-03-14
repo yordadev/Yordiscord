@@ -35,7 +35,7 @@ class DiscordAuthentication extends Controller
                 try {
                     $user = $this->findOrCreateAccount($response);
                     
-                    Auth::login($user);
+                    Auth::login($user, true);
 
                     return redirect()->route('home');
                 } catch (\Exception $e) {
