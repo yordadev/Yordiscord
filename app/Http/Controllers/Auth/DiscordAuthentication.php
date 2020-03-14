@@ -34,6 +34,7 @@ class DiscordAuthentication extends Controller
 
                 try {
                     $user = $this->findOrCreateAccount($response);
+                    dd($user);
                     Auth::login($user);
 
                     return redirect()->route('home')->with('success', 'You have successfully authenticated with discord.');
@@ -44,7 +45,8 @@ class DiscordAuthentication extends Controller
                 return redirect()->route('landing')->with('success', $e->getMessage());
             }
         }
-        return redirect()->route('landing')->with('success', 'Something went wrong, probably doing something you shouldnt tbh..');
+        dd($request);
+        //return redirect()->route('landing')->with('success', 'Something went wrong, probably doing something you shouldnt tbh..');
         // ermm derppppp.
     }
 
