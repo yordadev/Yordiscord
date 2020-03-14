@@ -17,8 +17,9 @@ class ServerListing extends Controller
     //protected $channelMaxMessages  = 1000;
     protected $lastID = null;
 
-    public function landingPage()
+    public function landingPage(Request $request)
     {
+        dd($request);
         $data  = [];
         $data['listed_servers']   = $this->fetchServerListings();
         $data['featured_servers'] = $this->fetchFeaturedServers();
