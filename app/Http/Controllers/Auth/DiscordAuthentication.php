@@ -32,14 +32,14 @@ class DiscordAuthentication extends Controller
                     ]
                 );
 
-                dd($response);
-                if (isset($response->access_token)) {
+                try {
                     $user = $this->findOrCreateAccount($response);
                     Auth::login($user);
 
                     return redirect()->route('home')->with('success', 'You have successfully authenticated with discord.');
+                } catch (\Exception $e) {
+                    return redirect()->to('/')->withErrors([$e->getMessage()]);
                 }
-                return redirect()->to('/')->withErrors(['Something went wrong.']);
             } catch (\Exception $e) {
                 return redirect()->to('/')->withErrors([$e->getMessage()]);
             }
@@ -57,9 +57,9 @@ class DiscordAuthentication extends Controller
             if ($access = $userFound->grantedAccess()) {
                 // access tokens found && check if they need to be updated.
                 if ($access->access_token !== $access_response->access_token) {
-                    try{
+                    try {
                         $access->update(collect($access_response)->toArray());
-                    } catch (\Exception $e){
+                    } catch (\Exception $e) {
                         dd($e);
                     }
                 }
