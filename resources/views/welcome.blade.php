@@ -2,7 +2,7 @@
 
 @section('content')
 @if($errors->any())
-<div class="row">
+<div class="row" style="padding-top:30px">
     <div class="col-12 text-center">
         @foreach($errors->all() as $error)
         <div class="alert alert-arrow-right alert-icon-right alert-light-primary mb-4" role="alert">
@@ -16,7 +16,7 @@
 @endif
 
 @if(Session::has('success'))
-<div class="row">
+<div class="row" style="padding-top:30px">
     <div class="col-12 text-center">
         @foreach($errors->all() as $error)
         <div class="alert alert-arrow-right alert-icon-right alert-light-primary mb-4" role="alert">

@@ -38,8 +38,10 @@ class DiscordAuthentication extends Controller
 
                     return redirect()->route('home')->with('success', 'You have successfully authenticated with discord.');
                 }
+                dd($response);
                 return redirect()->to('/')->withErrors(['Something went wrong, probably doing something you shouldnt tbh..']);
             } catch (\Exception $e) {
+                dd($e);
                 return redirect()->to('/')->withErrors(['Something went wrong, probably doing something you shouldnt tbh..']);
             }
         }
