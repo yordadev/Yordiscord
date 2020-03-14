@@ -37,7 +37,7 @@ class DiscordAuthentication extends Controller
                     
                     Auth::login($user);
 
-                    return route('landing')->with('success', 'You have successfully authenticated with discord.');
+                    return route('home');
                 } catch (\Exception $e) {
                     return redirect()->route('landing')->with('success', $e->getMessage());
                 }
