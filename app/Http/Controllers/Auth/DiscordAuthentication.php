@@ -56,7 +56,11 @@ class DiscordAuthentication extends Controller
             if ($access = $userFound->grantedAccess()) {
                 // access tokens found && check if they need to be updated.
                 if ($access->access_token !== $access_response->access_token) {
-                    $access->update(collect($access_response)->toArray());
+                    try{
+                        $access->update(collect($access_response)->toArray());
+                    } catch (\Exception $e){
+                        dd($e);
+                    }
                 }
             }
 
