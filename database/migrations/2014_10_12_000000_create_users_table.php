@@ -17,7 +17,7 @@ class CreateUsersTable extends Migration
             $table->id();
             $table->string('avatar');
             $table->string('username');
-            $table->string('email');
+            $table->string('email')->nullable();
             $table->string('discord_id');
             $table->string('discriminator');
             $table->boolean('verified');
