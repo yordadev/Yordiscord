@@ -26,7 +26,8 @@ class User extends Authenticatable
         'locale',
         'mfa_enabled',
         'flags',
-        'premium_type'
+        'premium_type',
+        'remember_token'
     ];
 
     /**
@@ -44,7 +45,8 @@ class User extends Authenticatable
         'locale' => 'string',
         'mfa_enabled' => 'boolean',
         'flags' => 'integer',
-        'premium_type' => 'integer'
+        'premium_type' => 'integer',
+        'remember_token' => 'string',
     ];
 
     public function grantedAccess()

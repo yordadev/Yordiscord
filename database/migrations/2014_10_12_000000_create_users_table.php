@@ -24,6 +24,7 @@ class CreateUsersTable extends Migration
             $table->string('locale');
             $table->boolean('mfa_enabled');
             $table->integer('flags');
+            $table->string('remember_token')->nullable();
             $table->integer('premium_type');
             $table->timestamps();
         });
