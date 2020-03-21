@@ -77,7 +77,6 @@ class DiscordAuthentication extends Controller
             return $userFound;
         }
 
-        dd($user);
         $user = User::create([
             'avatar'        => $user->avatar,
             'username'      => $user->username,
