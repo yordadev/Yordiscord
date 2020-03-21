@@ -52,7 +52,7 @@
                     <p class="info-text">Share your server with Yordiscord.</p>
 
                     @auth
-                    <a class="info-link" href="{{ route('discord.login')}} ">List Server <svg
+                    <a class="info-link" href="{{ route('home')}} ">List Server <svg
                             xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
                             stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
                             class="feather feather-arrow-right">

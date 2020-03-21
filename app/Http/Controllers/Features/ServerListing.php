@@ -19,7 +19,6 @@ class ServerListing extends Controller
 
     public function landingPage(Request $request)
     {
-        dd(Auth::user());
         $data  = [];
         $data['listed_servers']   = $this->fetchServerListings();
         $data['featured_servers'] = $this->fetchFeaturedServers();
