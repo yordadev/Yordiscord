@@ -19,12 +19,6 @@ class ServerListing extends Controller
 
     public function landingPage(Request $request)
     {
-
-        if(isset($request->code)){
-            dd($request);
-        }
-
-
         $data  = [];
         $data['listed_servers']   = $this->fetchServerListings();
         $data['featured_servers'] = $this->fetchFeaturedServers();
