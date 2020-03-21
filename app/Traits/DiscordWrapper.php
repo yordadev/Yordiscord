@@ -18,7 +18,7 @@ trait DiscordWrapper
             'client_id' => config('services.discord.client_id'),
             'redirect_uri' => config('services.discord.redirect_uri'),
             'response_type' => 'code',
-            'scope' => 'identify email guilds',
+            'scope' => 'identify email connections guilds',
             'state' => base64_encode(\Carbon\Carbon::now()->addMinutes(15))
         );
 
