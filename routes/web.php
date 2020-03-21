@@ -22,8 +22,9 @@ Route::get('/', 'Features\ServerListing@landingPage')->name('landing');
  * 
  */
 Route::get('oauth/discord', 'Auth\DiscordAuthentication@redirectUser')->name('discord.login');
-
-Route::get('api/oauth/discord/callback', 'Auth\DiscordAuthentication@callback');
+Route::group(['middleware' => ['web']], function () {
+    Route::get('oauth/discord/callback', 'Auth\DiscordAuthentication@callback');
+});
 //Route::get('oauth/discord/callback', 'Auth\DiscordAuthentication@callback');
 
 /*
@@ -40,7 +41,7 @@ Route::middleware(['auth:web'])->group(function () {
      */
     Route::get('profile', 'Account\Profile@index')->name('home');
     Route::post('/s/recommend', 'Account\RecommendServer@process')->name('recommend.server');
-    
+
     /*
      *
      * Auth Routes

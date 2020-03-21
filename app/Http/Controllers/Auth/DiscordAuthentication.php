@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Auth;
 use App\Models\Account\User;
 use Illuminate\Http\Request;
 use App\Traits\DiscordWrapper;
-use Auth;
+use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Controller;
 use App\Models\Account\DiscordAccess;
 
@@ -36,25 +36,25 @@ class DiscordAuthentication extends Controller
                     $user = $this->findOrCreateAccount($response);
                     
                     try{
-                        Auth::login(User::where('id', $user->id)->first());
+                        Auth::loginUsingId($user->id);
                         
                   
                     } catch(\Exception $e){
                         dd($e);
                     }
                     
-                    return redirect()->route('home')->with('success', 'You have successfully authenticated with discord.');
+                    return redirect()->route('home', [], 301)->with('success', 'You have successfully authenticated with discord.');
                 } catch (\Exception $e) {
                     dd($e);
-                    return redirect()->route('landing')->with('success', $e->getMessage());
+                    return redirect('/')->with('success', $e->getMessage());
                     
                 }
             } catch (\Exception $e) {
                 dd($e);
-                return redirect()->route('landing')->with('success', $e->getMessage());
+                return redirect('/')->with('success', $e->getMessage());
             }
         }
-        return redirect()->route('landing')->with('success', 'Something went wrong, probably doing something you shouldnt tbh..');
+        return redirect('landing')->with('success', 'Something went wrong, probably doing something you shouldnt tbh..');
     }
 
     private function findOrCreateAccount($access_response)

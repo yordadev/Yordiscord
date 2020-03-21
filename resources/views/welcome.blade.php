@@ -18,13 +18,13 @@
 @if(Session::has('success'))
 <div class="row" style="padding-top:30px">
     <div class="col-12 text-center">
-        @foreach($errors->all() as $error)
+        
         <div class="alert alert-arrow-right alert-icon-right alert-light-primary mb-4" role="alert">
             <button type="button" class="close" data-dismiss="alert" aria-label="Close"><svg> ... </svg></button>
             <svg> ... </svg>
-            <strong>Great news!</strong> {{ Session::get('success') }}.
+            <strong class="text-black">Great news!</strong> <span class="text-black">{{ Session::get('success') }}</span>.
         </div>
-        @endforeach
+        
     </div>
 </div>
 @endif
