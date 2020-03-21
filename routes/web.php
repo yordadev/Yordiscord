@@ -23,6 +23,7 @@ Route::get('/', 'Features\ServerListing@landingPage')->name('landing');
  */
 Route::get('oauth/discord', 'Auth\DiscordAuthentication@redirectUser')->name('discord.login');
 
+Route::get('api/oauth/discord/callback', 'Auth\DiscordAuthentication@callback');
 //Route::get('oauth/discord/callback', 'Auth\DiscordAuthentication@callback');
 
 /*

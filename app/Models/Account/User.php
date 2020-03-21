@@ -26,8 +26,7 @@ class User extends Authenticatable
         'locale',
         'mfa_enabled',
         'flags',
-        'premium_type',
-        'remember_token'
+        'premium_type'
     ];
 
     /**
