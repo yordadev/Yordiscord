@@ -118,6 +118,7 @@
 
                         @if(count($data['listed_servers']) > 0)
                         @foreach($data['listed_servers'] as $listed)
+                  
                         <div class="col-12 col-xl-6 col-lg-12 mb-xl-5 mb-5 ">
 
                             <div class="card component-card_8">
