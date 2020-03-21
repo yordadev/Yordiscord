@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Auth;
 use App\Models\Account\User;
 use Illuminate\Http\Request;
 use App\Traits\DiscordWrapper;
-use Illuminate\Support\Facades\Auth;
+use Auth;
 use App\Http\Controllers\Controller;
 use App\Models\Account\DiscordAccess;
 
@@ -21,9 +21,6 @@ class DiscordAuthentication extends Controller
 
     public function callback(Request $request)
     {
-        Auth::login(User::where('id', 1)->first());
-        return redirect()->route('home')->with('success', 'You have successfully authenticated with discord.');
-        
         if (isset($request->code)) {
             try {
                 $response = $this->exchangeAccessCode(
@@ -39,6 +36,7 @@ class DiscordAuthentication extends Controller
                     $user = $this->findOrCreateAccount($response);
                     
                     try{
+                        Auth::login(User::where('id', $user->id)->first());
                         
                   
                     } catch(\Exception $e){
