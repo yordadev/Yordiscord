@@ -95,10 +95,12 @@
                                     Server</button>
                                 @endif
                             @else 
+                            <button class="btn btn-sm btn-primary mr-1 ml-1 mt-1 mb-1 bs-tooltip" data-toggle="tooltip" data-html="false" title="You must be authenticated to recommend servers." disable="">Recommend Server</button>
                             <button class="btn btn-sm btn-primary mr-1 ml-1 mt-1 mb-1"
                             data-toggle="modal"
                             data-target="#joinServer{{ $featured->server_id }}Modal">Join
                             Server</button>
+                            
                             @endif
                         </div>
                     </div>
