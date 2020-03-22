@@ -22,6 +22,7 @@ Route::get('/', 'Features\ServerListing@landingPage')->name('landing');
  * 
  */
 Route::get('oauth/discord', 'Auth\DiscordAuthentication@redirectUser')->name('discord.login');
+
 Route::group(['middleware' => ['web']], function () {
     Route::get('oauth/discord/callback', 'Auth\DiscordAuthentication@callback');
 });
@@ -41,7 +42,9 @@ Route::middleware(['auth:web'])->group(function () {
      */
     Route::get('profile', 'Account\Profile@index')->name('home');
     Route::post('/s/recommend', 'Account\RecommendServer@process')->name('recommend.server');
-    Route::get('/s/{server_id}/join', 'Account\JoinServer@process')->name('join.server');
+    Route::post('/s/{server_id}/join', 'Account\JoinServer@process')->name('join.server');
+    Route::post('/s/list/update', 'Features\ServerListing@updateListing')->name('update.server');
+
 
     /*
      *

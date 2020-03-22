@@ -18,6 +18,8 @@ class CreateDiscordServersTable extends Migration
             $table->string('discord_id');
             $table->string('server_id');
             $table->string('name');
+            $table->boolean('listed')->default(false);
+            $table->string('code');
             $table->longText('description');
             $table->timestamps();
         });

@@ -21,12 +21,50 @@ class ServerListing extends Controller
     {
         $data  = [];
         $data['listed_servers']   = $this->fetchServerListings();
+     
         $data['featured_servers'] = $this->fetchFeaturedServers();
         $data['listed_servers']   = $this->gatherServerInfo($data['listed_servers']);
 
         return view('welcome', ['data' => $data]);
     }
 
+    public function updateListing(Request $request){
+        $request->validate([
+            'server_id' => 'required',
+            'description' => 'required|string|min:8|max:255',
+            'name' => 'required',
+            'code' => 'required|string|max:10|min:5',
+            'tags' => 'required|string|min:2|max:255'
+        ]);
+
+        $server = DiscordServer::where([
+            'discord_id' => Auth::user()->discord_id,
+            'server_id'  => $request->server_id
+        ])->first();
+
+  
+
+        $server->update($request->all());
+
+        $tags = ServerTag::where([
+            'server_id' => $request->server_id
+        ])->get();
+
+        $newTags = explode(" ", $request->tags);
+
+        foreach($tags as $oldTag){
+           $oldTag->delete();
+        }
+
+        foreach($newTags as $newTag){
+            ServerTag::create([
+                'server_id' => $request->server_id,
+                'tag'       => $newTag
+            ]);
+        }
+
+        return redirect()->back()->with('success', 'Server listing has been updated.');
+    }
     private function gatherServerInfo($listed_servers)
     {
         foreach ($listed_servers as $listed) {
@@ -36,7 +74,6 @@ class ServerListing extends Controller
                 return  $this->botClient()->guild->getGuildChannels(['guild.id' => (int) $server_id]);
             });
 
-         
             $listed->roles = cache()->remember('guild-' . $server_id . '-roles', 30, function () use ($server_id) {
                 return $this->botClient()->guild->getGuildRoles(['guild.id' => (int) $server_id]);
             });
@@ -78,14 +115,14 @@ class ServerListing extends Controller
                 return $guildMembers;
             });
         }
-       
+
         return $listed_servers;
     }
 
     private function fetchServerListings()
     {
         return cache()->remember('server_listings', 120, function () {
-            return DiscordServer::get();
+            return DiscordServer::where('listed', true)->get();
         });
     }
 
@@ -96,12 +133,14 @@ class ServerListing extends Controller
         });
     }
 
+
     public function listServer(Request $request)
     {
         $request->validate([
             'server_id' => 'required',
             'description' => 'required|string|min:8|max:255',
             'name' => 'required',
+            'code' => 'required|string|max:10|min:5',
             'tags' => 'required|string|min:2|max:255'
         ]);
 
@@ -115,42 +154,50 @@ class ServerListing extends Controller
                 return redirect()->back()->withErrors(['Server is already listed.']);
             }
 
-            DiscordServer::create([
-                'discord_id'  => Auth::user()->discord_id,
-                'server_id'   => $request->server_id,
-                'name'        => $request->name,
-                'description' => $request->description
-            ]);
+            // validate invite code
 
-            // create invite link
-            
+            if ($inviteCheck = $this->sendAPIRequest('GET', 'invites/' . $request->code, [], [])) {
+                if ($inviteCheck->guild->id = $request->server_id) {
+                    // yepp invite code for this server
 
-            // store invite link
 
-            
-            $tags = explode(" ", $request->tags);
-            $cnt = 0;
-            foreach ($tags as $item) {
-                if ($cnt === 0) {
-                    ServerTag::create([
-                        'server_id'  => $request->server_id,
-                        'is_primary' => true,
-                        'tag'        => ucfirst($item),
+                    DiscordServer::create([
+                        'discord_id'  => Auth::user()->discord_id,
+                        'server_id'   => $request->server_id,
+                        'name'        => $request->name,
+                        'code'        => $request->code,
+                        'description' => $request->description
                     ]);
-                    $cnt++;
-                } else {
-                    if ($cnt <= 3) {
-                        ServerTag::create([
-                            'server_id'  => $request->server_id,
-                            'is_primary' => false,
-                            'tag'        =>  ucfirst(strtolower($item)),
-                        ]);
-                        $cnt++;
+
+                    $tags = explode(" ", $request->tags);
+                    $cnt = 0;
+                    foreach ($tags as $item) {
+                        if ($cnt === 0) {
+                            ServerTag::create([
+                                'server_id'  => $request->server_id,
+                                'is_primary' => true,
+                                'tag'        => ucfirst($item),
+                            ]);
+                            $cnt++;
+                        } else {
+                            if ($cnt <= 3) {
+                                ServerTag::create([
+                                    'server_id'  => $request->server_id,
+                                    'is_primary' => false,
+                                    'tag'        =>  ucfirst(strtolower($item)),
+                                ]);
+                                $cnt++;
+                            }
+                        }
                     }
+
+
+                    $redirectURL = $this->listServerOAuthRedirectURL($request->server_id, Auth::user()->discord_id);
+                    return redirect()->to($redirectURL);
                 }
             }
 
-            return redirect()->back()->with('success', 'Server successfully listed');
+            return redirect()->back()->withErrors('Invalid Invite code. Ensure you are not giving the full invite url and only the code.');
         }
         // doesn't own this server.. cannot list it.
 

@@ -1,4 +1,4 @@
-<div class="modal fade login-modal" id="joinServerModal" tabindex="-1" role="dialog" aria-labelledby="joinServerModalLabel"
+<div class="modal fade login-modal" id="joinServer{{ $server->server_id }}Modal" tabindex="-1" role="dialog" aria-labelledby="joinServerModalLabel"
     style="display: none;" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -14,15 +14,11 @@
                     </svg></button>
             </div>
             <div class="modal-body">
-                <form action="{{ route('recommend.server') }}" method="POST" class="mt-0">
+                <form action="{{ route('join.server', ['server_id' => $server->server_id]) }}" method="POST" class="mt-0">
                     @csrf
                     <input type="hidden" value="{{ $server->server_id}}" name="server_id" id="server_id">
-                    <div class="form-group">
-                        <p>Write an <code>optional short</code> testimony for the server.</p>
-                        <label for="testimony" class="sr-only">Server testimony</label>
-                        <input type="text" class="form-control" id="testimony" name="testimony" aria-describedby="testimony" placeholder="This server has the best emojis...">
-                    </div>
-                    <button type="submit" class="btn btn-primary mt-2 mb-2 btn-block">Recommend this Server</button>
+                   
+                    <button type="submit" class="btn btn-primary mt-2 mb-2 btn-block">Join this Server</button>
                 </form>
             </div>
             

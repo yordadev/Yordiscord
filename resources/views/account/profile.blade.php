@@ -140,6 +140,7 @@
                                         </div>
 
                                         <div class="progress-order-body">
+                                          
                                             <div class="row mt-4">
                                                 @if($listed->recommendations->count() > 0)
                                                 <div class="col-md-12 text-left" style="padding-bottom:10px">
@@ -178,7 +179,7 @@
                                                         <li class="list-inline-item chat-online-usr">
                                                             <img alt="avatar"
                                                                 src="https://cdn.discordapp.com/avatars/{{ $user->discordUser->discord_id }}/{{ $user->discordUser->avatar }}"
-                                                                class="ml-0">
+                                                                class="ml-0  bs-tooltip" data-toggle="tooltip" data-html="false" title="{{ $user->discordUser->username }}">
                                                         </li>
                                                         @endforeach
 
@@ -187,6 +188,10 @@
                                                     </ul>
                                                     @endif
                                                 </div>
+                                            </div>
+                                            <div class="col-md-12 text-center">
+                                               <button class="btn btn-sm btn-outline-warning" data-toggle="modal"
+                                               data-target="#update{{ $listed->server_id }}Modal">Update Listing</button>
                                             </div>
                                         </div>
                                     </div>
@@ -232,7 +237,7 @@
                                                 <div class="d-flex">
                                                     <div class="usr-img-frame mr-2 rounded-circle">
                                                         <img alt="avatar" class="img-fluid rounded-circle"
-                                                            src="https://cdn.discordapp.com/icons/{{ $server->id }}/{{ $server->icon }}">
+                                                            src="https://cdn.discordapp.com/icons/{{ $server->id }}/{{ $server->icon }}" onerror="this.src='https://cdn.discordapp.com/avatars/288445693889085440/a_14bfd48ffc41e9366e6064feda36e412';this.onerror='';">
                                                     </div>
                                                     <p class="align-self-center mb-0">{{ $server->name }}</p>
                                                 </div>
@@ -247,7 +252,7 @@
                                                 @if(Auth::user()->canList($server->id))
                                                 <a href="#" class=""><button
                                                         class="btn btn-sm btn-primary mr-1 ml-1 mt-1 mb-1" data-toggle="modal"
-                                                        data-target="#listServerModal">List
+                                                        data-target="#listServer{{$server->id}}Modal">List
                                                         Server</button></a>
                                                         @else 
                                                         <span 
@@ -384,7 +389,13 @@
 @foreach($data['servers'] as $server)
 @if($server->owner)
 @include('account.components.list_server', ['server' => $server])
+
 @endif
 
+@endforeach
+
+@foreach($data['listed_servers'] as $server)
+
+@include('account.components.update', ['server' => $server])
 @endforeach
 @endsection

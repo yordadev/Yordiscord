@@ -1,4 +1,4 @@
-<div class="modal fade login-modal" id="recommendServerModal" tabindex="-1" role="dialog" aria-labelledby="recommendServerModalLabel"
+<div class="modal fade login-modal" id="recommendServer{{ $server->server_id }}Modal" tabindex="-1" role="dialog" aria-labelledby="recommendServerModalLabel"
     style="display: none;" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">

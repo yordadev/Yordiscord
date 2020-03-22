@@ -17,6 +17,8 @@
     <link href="{{ asset('assets/css/users/user-profile.css') }}" rel="stylesheet" type="text/css">
     <link href="{{ asset('assets/css/elements/infobox.css') }}" rel="stylesheet" type="text/css">
     <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/elements/alert.css') }}">
+    <link href="{{ asset('assets/css/elements/tooltip.css') }}" rel="stylesheet" type="text/css">
+    
 </head>
 
 <body class="sidebar-noneoverflow">
@@ -166,6 +168,7 @@
     <script src="{{ asset('assets/js/libs/jquery-3.1.1.min.js') }}"></script>
     <script src="{{ asset('bootstrap/js/popper.min.js') }}"></script>
     <script src="{{ asset('bootstrap/js/bootstrap.min.js') }}"></script>
+    
     <script src="{{ asset('plugins/perfect-scrollbar/perfect-scrollbar.min.js') }}"></script>
     <script src="{{ asset('assets/js/app.js') }}"></script>
 
@@ -178,7 +181,7 @@
     <!-- END GLOBAL MANDATORY SCRIPTS -->
 
     <!-- BEGIN PAGE LEVEL PLUGINS/CUSTOM SCRIPTS -->
-
+    <script src="{{ asset('assets/js/elements/tooltip.js') }}"></script>
     <!-- BEGIN PAGE LEVEL PLUGINS/CUSTOM SCRIPTS -->
 </body>
 

@@ -5,10 +5,11 @@ namespace App\Traits;
 use GuzzleHttp\Client;
 use RestCord\DiscordClient;
 use App\Traits\Discord\AccountLibrary;
+use App\Traits\Discord\ListingLibrary;
 
 trait DiscordWrapper
 {
-    use AccountLibrary;
+    use AccountLibrary, ListingLibrary;
 
     protected $base_uri  = 'https://discordapp.com/api/';
 
@@ -18,7 +19,7 @@ trait DiscordWrapper
             'client_id' => config('services.discord.client_id'),
             'redirect_uri' => config('services.discord.redirect_uri'),
             'response_type' => 'code',
-            'scope' => 'identify email connections guilds guilds.join',
+            'scope' => 'identify email connections guilds',
             'state' => base64_encode(\Carbon\Carbon::now()->addMinutes(15))
         );
 

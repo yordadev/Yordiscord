@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Auth;
 use App\Models\Account\User;
 use Illuminate\Http\Request;
 use App\Traits\DiscordWrapper;
+use App\Models\Server\DiscordServer;
+use App\Models\Server\ServerAccess;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Controller;
 use App\Models\Account\DiscordAccess;
@@ -33,21 +35,30 @@ class DiscordAuthentication extends Controller
                 );
 
                 try {
+                    $checkForServerAuthentication = explode("::", base64_decode($request->state));
+                    if (isset($checkForServerAuthentication[2])) {
+                        // check if its a time and if its expirred state
+
+                        if (\Carbon\Carbon::parse($checkForServerAuthentication[2])->gt(\Carbon\Carbon::now())) {
+                            // valid state server auth
+                            $this->createServerAccess($response);
+                            return redirect()->route('home')->with('success', 'You have successfully listed a server.');
+                        }
+                    }
+
+
                     $user = $this->findOrCreateAccount($response);
-                    
-                    try{
+
+                    try {
                         Auth::login(User::where('id', $user->id)->first());
-                        
-                  
-                    } catch(\Exception $e){
+                    } catch (\Exception $e) {
                         dd($e);
                     }
-                    
+
                     return redirect()->route('home')->with('success', 'You have successfully authenticated with discord.');
                 } catch (\Exception $e) {
                     dd($e);
                     return redirect()->route('landing')->with('success', $e->getMessage());
-                    
                 }
             } catch (\Exception $e) {
                 dd($e);
@@ -56,7 +67,34 @@ class DiscordAuthentication extends Controller
         }
         return redirect()->route('landing')->with('success', 'Something went wrong, probably doing something you shouldnt tbh..');
     }
+    private function createServerAccess($access_response)
+    {
+        $server = DiscordServer::where('server_id', $access_response->guild->id)->first();
+        $server->listed = true;
+        $server->save();
 
+
+        if($access = ServerAccess::where('server_id', $access_response->guild->id)->first()){
+            // update the access that was found
+            
+            $access->access_token = $access_response->access_token;
+            $access->expires_in = $access_response->expires_in;
+            $access->refresh_token = $access_response->refresh_token;
+            $access->scope         = $access_response->scope;
+            $access->save();
+            
+            return;
+        }
+        
+        ServerAccess::create([
+            'server_id'     => $access_response->guild->id,
+            'access_token'  => $access_response->access_token,
+            'expires_in'    => $access_response->expires_in,
+            'refresh_token' => $access_response->refresh_token,
+            'scope'         => $access_response->scope
+        ]);
+        return;
+    }
     private function findOrCreateAccount($access_response)
     {
         $user = $this->fetchAccountDetails($access_response->access_token);

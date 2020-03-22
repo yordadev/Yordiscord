@@ -30,6 +30,8 @@
 </div>
 @endif
 
+
+
 <div class="row" style="padding-top:30px">
     <div class="col-12 text-center" style="padding-bottom:30px">
         <h2>Advertise Your Discord Server && Recommend Others!</h2>
@@ -50,7 +52,8 @@
                         </svg>
                     </div>
                     <h5 class="info-heading">Discord OAuth2</h5>
-                    <p class="info-text">For more information on what is happening, see <a href="https://discordapp.com/developers/docs/topics/oauth2">here</a>.</p>
+                    <p class="info-text">For more information on what is happening, see <a
+                            href="https://discordapp.com/developers/docs/topics/oauth2">here</a>.</p>
 
                     @auth
                     <a class="info-link" href="{{ route('home')}} ">List Server <svg xmlns="http://www.w3.org/2000/svg"
@@ -84,82 +87,13 @@
     </div>
 </div>
 
+@include('features.server.featured')
 
-<div class="row">
-    <div class="col-12 text-center" style="padding-bottom:30px">
-        <h2>Featured Servers</h2>
-    </div>
-    @if($data['featured_servers']->count() < 1) <div class="col-lg-6 offset-lg-3">
-
-        <p class="text-muted text-center">
-            Not featuring any servers currently.
-        </p>
-</div>
-@else
-
-<div class="col-lg-4">
-    <div class="card component-card_8">
-        <div class="card-body">
-
-            <div class="progress-order">
-                <div class="progress-order-header">
-                    <div class="row">
-                        <div class="col-md-6 col-sm-6 col-12">
-                            <h6>Server Name</h6>
-                        </div>
-                        <div class="col-md-6 pl-0 col-sm-6 col-12 text-right">
-                            <span class="badge badge-info">Category</span>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="progress-order-body">
-                    <div class="row mt-4">
-                        <div class="col-md-12 text-left" style="padding-bottom:10px">
-                            <span class=" p-o-percentage mr-4">Recommended by</span>
-                        </div>
-                        <div class="col-md-12">
-                            <ul class="list-inline badge-collapsed-img mb-0 mb-3">
-                                <li class="list-inline-item chat-online-usr">
-                                    <img alt="avatar" src="{{ asset('assets/img/200x200.jpg') }}" class="ml-0">
-                                </li>
-                                <li class="list-inline-item chat-online-usr">
-                                    <img alt="avatar" src="{{ asset('assets/img/200x200.jpg') }}">
-                                </li>
-                                <li class="list-inline-item chat-online-usr">
-                                    <img alt="avatar" src="{{ asset('assets/img/200x200.jpg') }}">
-                                </li>
-                                <li class="list-inline-item chat-online-usr">
-                                    <img alt="avatar" src="{{ asset('assets/img/200x200.jpg') }}">
-                                </li>
-                                <li class="list-inline-item badge-notify mr-0">
-                                    <div class="notification">
-                                        <span class="badge badge-info badge-pill">+5 more</span>
-                                    </div>
-                                </li>
-                            </ul>
-                        </div>
-                        <div class="col-md-12 text-center">
-                            <span class=" p-o-percentage mr-4"><a href="#"><button
-                                        class="btn btn-sm btn-primary">Recommend Server</button></a></span>
-                            <span class=" p-o-percentage mr-4"><a href="#"><button class="btn btn-sm btn-primary">Join
-                                        Server</button></a></span>
-
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-        </div>
-    </div>
-</div>
-@endif
-
-</div>
-@if($data['featured_servers']->count() < 1) <div class="row mt-4">
-    @else
     <div class="row">
-        @endif
+      
+
+
+
         <div class="col-12 text-center" style="padding-bottom:30px">
             <h2>Listed Servers</h2>
         </div>
@@ -187,7 +121,8 @@
                                 <div class="d-flex">
                                     <div class="usr-img-frame mr-2 rounded-circle">
                                         <img alt="avatar" class="img-fluid rounded-circle"
-                                            src="https://cdn.discordapp.com/icons/{{ $listed_server->server_id }}/{{ $listed_server->icon }}">
+                                            src="https://cdn.discordapp.com/icons/{{ $listed_server->server_id }}/{{ $listed_server->icon }}"
+                                            onerror="this.src='https://cdn.discordapp.com/avatars/288445693889085440/a_14bfd48ffc41e9366e6064feda36e412';this.onerror='';">
                                     </div>
                                     <p class="align-self-center mb-0">{{ $listed_server->name }}</p>
                                 </div>
@@ -201,15 +136,17 @@
                             @auth
                             <td class="text-center">
                                 @if(Auth::user()->canRecommend($listed_server->server_id))
-                                <a href="#" class=""><button
-                                    class="btn btn-sm btn-primary mr-1 ml-1 mt-1 mb-1" data-toggle="modal"
-                                    data-target="#recommendServerModal">Recommend Server</button></a>
-                                @else 
-                               <span
-                                    class="badge badge-sm badge-success mr-1 ml-1 mt-1 mb-1">You Recommend Server</span>
+                                <a href="#" class=""><button class="btn btn-sm btn-primary mr-1 ml-1 mt-1 mb-1"
+                                        data-toggle="modal"
+                                        data-target="#recommendServer{{ $listed_server->server_id }}Modal">Recommend
+                                        Server</button></a>
+                                @else
+                                <span class="badge badge-sm badge-success mr-1 ml-1 mt-1 mb-1">You Recommend
+                                    Server</span>
                                 @endif
-                                <a href="{{ route('join.server', ['server_id' => $listed_server->server_id])}}"><button class="btn btn-sm btn-primary mr-1 ml-1 mt-1 mb-1"
-                                        data-toggle="modal" data-target="#joinServerModal">Join
+                                <a href="#"><button class="btn btn-sm btn-primary mr-1 ml-1 mt-1 mb-1"
+                                        data-toggle="modal"
+                                        data-target="#joinServer{{ $listed_server->server_id }}Modal">Join
                                         Server</button></a>
                             </td>
 
@@ -239,6 +176,7 @@
 
     @foreach($data['listed_servers'] as $listed_server)
     @include('features.server.recommend', ['server' => $listed_server])
+    @include('features.server.join', ['server' => $listed_server])
     @endforeach
 
     @endsection
