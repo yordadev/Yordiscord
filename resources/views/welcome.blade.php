@@ -33,6 +33,12 @@
 
 
 <div class="row" style="padding-top:30px">
+    @auth 
+    
+
+
+
+    @else
     <div class="col-12 text-center" style="padding-bottom:30px">
         <h2>Advertise Your Discord Server && Recommend Others!</h2>
     </div>
@@ -85,6 +91,8 @@
             </div>
         </div>
     </div>
+
+    @endauth
 </div>
 
 @include('features.server.featured')
