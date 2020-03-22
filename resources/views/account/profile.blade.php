@@ -224,66 +224,60 @@
                         <tbody>
 
                             @if(count($data['servers']) > 1)
+                                
+                                @foreach($data['servers'] as $server)
+                                    @if($server->owner)
+                                        <tr>
+                                            <td>
+                                                <div class="d-flex">
+                                                    <div class="usr-img-frame mr-2 rounded-circle">
+                                                        <img alt="avatar" class="img-fluid rounded-circle"
+                                                            src="https://cdn.discordapp.com/icons/{{ $server->id }}/{{ $server->icon }}">
+                                                    </div>
+                                                    <p class="align-self-center mb-0">{{ $server->name }}</p>
+                                                </div>
+                                            </td>
+                                            @if($server->owner)
+                                            <td class="text-center"><span
+                                                    class="badge outline-badge-success shadow-none">True</span></td>
+                                            <td class="text-center">{{ $server->permissions }}</td>
 
 
+                                            <td class="text-center">
+                                                @if(Auth::user()->canList($server->id))
+                                                <a href="#" class=""><button
+                                                        class="btn btn-sm btn-primary mr-1 ml-1 mt-1 mb-1" data-toggle="modal"
+                                                        data-target="#listServerModal">List
+                                                        Server</button></a>
+                                                        @else 
+                                                        <span 
+                                                            class="badge badge-sm badge-success mr-1 ml-1 mt-1 mb-1">Server is Listed</span>
 
-                            @foreach($data['servers'] as $server)
-                            @if($server->owner)
-                            <tr>
-                                <td>
-                                    <div class="d-flex">
-                                        <div class="usr-img-frame mr-2 rounded-circle">
-                                            <img alt="avatar" class="img-fluid rounded-circle"
-                                                src="https://cdn.discordapp.com/icons/{{ $server->id }}/{{ $server->icon }}">
-                                        </div>
-                                        <p class="align-self-center mb-0">{{ $server->name }}</p>
-                                    </div>
-                                </td>
-                                @if($server->owner)
-                                <td class="text-center"><span
-                                        class="badge outline-badge-success shadow-none">True</span></td>
-                                <td class="text-center">{{ $server->permissions }}</td>
+                                                        @endif
+                                            </td>
 
-                                <td class="text-center"><a href="#" class=""><button
-                                            class="btn btn-sm btn-primary mr-1 ml-1 mt-1 mb-1" data-toggle="modal"
-                                            data-target="#listServerModal">List
-                                            Server</button></a>
-                                </td>
+                                            @else
+                                            <td class="text-center"><span
+                                                    class="badge outline-badge-danger shadow-none">False</span></td>
+                                            <td class="text-center">{{ $server->permissions }}</td>
 
-                                @else
-                                <td class="text-center"><span
-                                        class="badge outline-badge-danger shadow-none">False</span></td>
-                                <td class="text-center">{{ $server->permissions }}</td>
+                                            @if($server->recommended)
+                                            <td class="text-center"><span
+                                                        class="badge badge-success mr-1 ml-1 mt-1 mb-1">
+                                                        Server Recommended</span>
+                                            </td>
+                                            @else
+                                            <td class="text-center"><a href="#" class=""><button
+                                                        class="btn btn-sm btn-success mr-1 ml-1 mt-1 mb-1">Recommend
+                                                        Server</button></a>
+                                            </td>
+                                            @endif
+                                            @endif
+                                        </tr>
+                                    @endif
+                                @endforeach
 
-                                @if($server->recommended)
-                                <td class="text-center"><span
-                                            class="badge badge-success mr-1 ml-1 mt-1 mb-1" disabled="">Recommended
-                                            Server</span>
-                                </td>
-                                @else
-                                <td class="text-center"><a href="#" class=""><button
-                                            class="btn btn-sm btn-success mr-1 ml-1 mt-1 mb-1">Recommend
-                                            Server</button></a>
-                                </td>
-                                @endif
-                                @endif
-                            </tr>
-                            @endif
-                            @endforeach
-
-                            @else
-
-
-                            <tr>
-
-                                <td>
-
-                                </td>
-                                <td class="text-center">You are not in any servers,</td>
-                                <td class="text-center">you should join one!</td>
-                                <td class="text-center">
-                                </td>
-                            </tr>
+                            
                             @endif
 
 

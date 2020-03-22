@@ -22,8 +22,7 @@ class ServerListing extends Controller
         $data  = [];
         $data['listed_servers']   = $this->fetchServerListings();
         $data['featured_servers'] = $this->fetchFeaturedServers();
-
-        $data['listed_servers'] = $this->gatherServerInfo($data['listed_servers']);
+        $data['listed_servers']   = $this->gatherServerInfo($data['listed_servers']);
 
         return view('welcome', ['data' => $data]);
     }
@@ -37,6 +36,7 @@ class ServerListing extends Controller
                 return  $this->botClient()->guild->getGuildChannels(['guild.id' => (int) $server_id]);
             });
 
+         
             $listed->roles = cache()->remember('guild-' . $server_id . '-roles', 30, function () use ($server_id) {
                 return $this->botClient()->guild->getGuildRoles(['guild.id' => (int) $server_id]);
             });
@@ -78,6 +78,7 @@ class ServerListing extends Controller
                 return $guildMembers;
             });
         }
+       
         return $listed_servers;
     }
 
@@ -120,6 +121,8 @@ class ServerListing extends Controller
                 'name'        => $request->name,
                 'description' => $request->description
             ]);
+
+            // create invite link
 
             $tags = explode(" ", $request->tags);
             $cnt = 0;

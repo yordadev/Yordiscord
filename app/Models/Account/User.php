@@ -4,6 +4,7 @@ namespace App\Models\Account;
 
 use App\Models\Server\DiscordServer;
 use App\Models\Account\DiscordAccess;
+use App\Models\Server\ServerRecommendation;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
@@ -55,5 +56,25 @@ class User extends Authenticatable
 
     public function listedServers(){
         return $this->hasMany(DiscordServer::class, 'discord_id', 'discord_id');
+    }
+
+    public function canRecommend($server_id){
+        if(ServerRecommendation::where([
+            'discord_id' => $this->discord_id,
+            'server_id' => $server_id
+        ])->first()){
+            return false;
+        }
+        return true;
+    }
+
+    public function canList($server_id){
+        if(DiscordServer::where([
+            'server_id' => $server_id,
+            'discord_id' => $this->discord_id
+        ])->first()){
+            return false;
+        }
+        return true;
     }
 }

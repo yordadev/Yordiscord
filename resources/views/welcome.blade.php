@@ -18,20 +18,21 @@
 @if(Session::has('success'))
 <div class="row" style="padding-top:30px">
     <div class="col-12 text-center">
-        
+
         <div class="alert alert-arrow-right alert-icon-right alert-light-primary mb-4" role="alert">
             <button type="button" class="close" data-dismiss="alert" aria-label="Close"><svg> ... </svg></button>
             <svg> ... </svg>
-            <strong class="text-black">Great news!</strong> <span class="text-black">{{ Session::get('success') }}</span>.
+            <strong class="text-black">Great news!</strong> <span
+                class="text-black">{{ Session::get('success') }}</span>.
         </div>
-        
+
     </div>
 </div>
 @endif
 
 <div class="row" style="padding-top:30px">
     <div class="col-12 text-center" style="padding-bottom:30px">
-        <h2>Advertise Your Discord Server</h2>
+        <h2>Advertise Your Discord Server && Recommend Others!</h2>
     </div>
     <div id="infobox3" class="col-lg-8 offset-lg-2 layout-spacing">
         <div class="statbox widget box box-shadow">
@@ -49,19 +50,19 @@
                         </svg>
                     </div>
                     <h5 class="info-heading">Discord OAuth2</h5>
-                    <p class="info-text">Share your server with Yordiscord.</p>
+                    <p class="info-text">For more information on what is happening, see <a href="https://discordapp.com/developers/docs/topics/oauth2">here</a>.</p>
 
                     @auth
-                    <a class="info-link" href="{{ route('home')}} ">List Server <svg
-                            xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
-                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                    <a class="info-link" href="{{ route('home')}} ">List Server <svg xmlns="http://www.w3.org/2000/svg"
+                            width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
                             class="feather feather-arrow-right">
                             <line x1="5" y1="12" x2="19" y2="12"></line>
                             <polyline points="12 5 19 12 12 19"></polyline>
                         </svg></a>
 
                     @else
-                    <a class="info-link" href="{{ route('discord.login')}} ">Authenticate <svg
+                    <a class="info-link" href="{{ route('discord.login')}} ">Authenticate With Discord<svg
                             xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
                             stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
                             class="feather feather-arrow-right">
@@ -171,7 +172,10 @@
                             <th class="text-center">Members</th>
                             <th class="text-center">Channels</th>
                             <th class="text-center">Roles</th>
+                            <th class="text-center">Recommendations</th>
+                            @auth
                             <th class="text-center">Action</th>
+                            @endauth
                         </tr>
                     </thead>
                     <tbody>
@@ -191,23 +195,36 @@
                             <td class="text-center">{{ count($listed_server->members) }}</td>
                             <td class="text-center">{{ count($listed_server->channels) }}</td>
                             <td class="text-center">{{ count($listed_server->roles) }}</td>
+                            <td class="text-center">{{ count($listed_server->recommendations) }}</td>
 
-                            <td class="text-center"><a href="#" class=""><button
-                                        class="btn btn-sm btn-primary mr-1 ml-1 mt-1 mb-1" data-toggle="modal" data-target="#recommendServerModal">Recommend Server</button></a>
-                                <a href="#"><button class="btn btn-sm btn-primary mr-1 ml-1 mt-1 mb-1" data-toggle="modal" data-target="#joinServerModal">Join
+
+                            @auth
+                            <td class="text-center">
+                                @if(Auth::user()->canRecommend($listed_server->server_id))
+                                <a href="#" class=""><button
+                                    class="btn btn-sm btn-primary mr-1 ml-1 mt-1 mb-1" data-toggle="modal"
+                                    data-target="#recommendServerModal">Recommend Server</button></a>
+                                @else 
+                               <span
+                                    class="badge badge-sm badge-success mr-1 ml-1 mt-1 mb-1">You Recommend Server</span>
+                                @endif
+                                <a href="{{ route('join.server', ['server_id' => $listed_server->server_id])}}"><button class="btn btn-sm btn-primary mr-1 ml-1 mt-1 mb-1"
+                                        data-toggle="modal" data-target="#joinServerModal">Join
                                         Server</button></a>
                             </td>
+
+                            @endauth
                             @endforeach
                             @else
 
                             <td>
 
                             </td>
-                            
+
                             <td class="text-center">No listenings currently,</td>
                             <td class="text-center">be the first.</td>
                             <td class="text-center">
-                                <td class="text-center">
+                            <td class="text-center">
 
                             </td>
 
@@ -221,7 +238,7 @@
     </div>
 
     @foreach($data['listed_servers'] as $listed_server)
-        @include('features.server.recommend', ['server' => $listed_server])
+    @include('features.server.recommend', ['server' => $listed_server])
     @endforeach
 
     @endsection

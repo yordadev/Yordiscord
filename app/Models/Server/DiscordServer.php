@@ -4,6 +4,7 @@ namespace App\Models\Server;
 
 use App\Models\Server\ServerTag;
 use App\Models\Server\FeaturedServer;
+use App\Models\Account\DiscordAccess;
 use App\Models\Server\ServerRecommendation;
 use Illuminate\Database\Eloquent\Model;
 
@@ -34,5 +35,9 @@ class DiscordServer extends Model
 
     public function tags(){
         return $this->hasMany(ServerTag::class, 'server_id', 'server_id');
+    }
+
+    public function access(){
+        return $this->hasOne(DiscordAccess::class, 'discord_id', 'discord_id');
     }
 }

@@ -41,6 +41,7 @@ Route::middleware(['auth:web'])->group(function () {
      */
     Route::get('profile', 'Account\Profile@index')->name('home');
     Route::post('/s/recommend', 'Account\RecommendServer@process')->name('recommend.server');
+    Route::get('/s/{server_id}/join', 'Account\JoinServer@process')->name('join.server');
 
     /*
      *

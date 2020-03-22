@@ -87,7 +87,7 @@ class DiscordAuthentication extends Controller
             'locale'        => $user->locale,
             'mfa_enabled'   => $user->mfa_enabled,
             'flags'         => $user->flags,
-            'premium_type'  => $user->premium_type
+            'premium_type'  => $user->premium_type ?? null
         ]);
 
         DiscordAccess::create([
