@@ -33,166 +33,165 @@
 
 
 <div class="row" style="padding-top:30px">
-    @auth
 
+    <div class="col-12">
+        <div class="app-note-container">
 
+            <div class="app-note-overlay"></div>
 
+            <div class="tab-title">
+                <div class="row">
+                   
+                    <div class="col-md-12 col-sm-12 col-12 mt-5">
+                        <ul class="nav nav-pills d-block" id="pills-tab3" role="tablist">
+                            <li class="nav-item">
+                                <a class="nav-link list-actions active" id="all-tags"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-edit"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg> All Servers</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link list-actions" id="tag-featured"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-star"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg> Featured Servers</a>
+                            </li>
+                        </ul>
 
-    @else
-    <div class="col-12 text-center" style="padding-bottom:30px">
-        <h2>Advertise Your Discord Server && Recommend Others!</h2>
-    </div>
-    <div id="infobox3" class="col-lg-8 offset-lg-2 layout-spacing">
-        <div class="statbox widget box box-shadow">
-            <div class="widget-content widget-content-area">
-                <div class="infobox-3">
-                    <div class="info-icon">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
-                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                            class="feather feather-box">
-                            <path
-                                d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z">
-                            </path>
-                            <polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline>
-                            <line x1="12" y1="22.08" x2="12" y2="12"></line>
-                        </svg>
+                        <hr>
+
+                        <p class="group-section"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-tag"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7" y2="7"></line></svg> Tags</p>
+
+                        <ul class="nav nav-pills d-block group-list" id="pills-tab" role="tablist">
+                            @foreach($data['tags'] as $tag)
+                            <li class="nav-item">
+                                <a class="nav-link list-actions g-dot-primary" id="tag-{{ $tag->tag }}">{{ $tag->tag }}</a>
+                            </li>
+                            @endforeach
+                           
+                        </ul>
                     </div>
-                    <h5 class="info-heading">Discord OAuth2</h5>
-                    <p class="info-text">For more information on what is happening, see <a
-                            href="https://discordapp.com/developers/docs/topics/oauth2">here</a>.</p>
-
-                    @auth
-                    <a class="info-link" href="{{ route('home')}} ">List Server <svg xmlns="http://www.w3.org/2000/svg"
-                            width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                            class="feather feather-arrow-right">
-                            <line x1="5" y1="12" x2="19" y2="12"></line>
-                            <polyline points="12 5 19 12 12 19"></polyline>
-                        </svg></a>
-
-                    @else
-                    <a class="info-link" href="{{ route('discord.login')}} ">Authenticate With Discord<svg
-                            xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
-                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                            class="feather feather-arrow-right">
-                            <line x1="5" y1="12" x2="19" y2="12"></line>
-                            <polyline points="12 5 19 12 12 19"></polyline>
-                        </svg></a>
-                    @endauth
                 </div>
+            </div>
 
-                <div class="code-section-container">
 
-                    <a href="https://github.com/yordadev"><button class="btn toggle-code-snippet"><span>View Source
-                                Code</span></button></a>
+            <div id="ct" class="note-container note-grid mt-4">
+                
+             
+                    
+                    @foreach($data['listed_servers'] as $server)
 
-                </div>
+                
+                                 <div class="note-item {{$server->taggers}} " style="">
+            
+                            <div class="note-inner-content">
+                                <div class="note-content">
+                                    <p class="note-title" data-notetitle="Meeting with Kelly">{{ $server->name }}</p>
+                                    <p class="meta-time">Updated {{ $server->updated_at->diffForHumans() }}</p>
+                                    <div class="note-description-content">
+                                        <p class="note-description" data-notedescription="{{ $server->description }}">{{ $server->description }}</p>
+                                    </div>
+                                </div>
+                                <div class="note-action">
+                                    <div class="row mt-4">
+                                        @if($server->recommendations->count() > 0)
+                                        <div class="col-md-12 text-left" style="padding-bottom:10px">
+                                            <span class=" p-o-percentage mr-4">Recommended by</span>
+                                        </div>
+                                        @endif
+                                        <div class="col-md-12">
+            
+                                            @if($server->recommendations->count() < 1)
+                                            <p class="text-muted">No one has recommended your server yet.</p>
+            
+                                            @else 
+                                            <ul class="list-inline badge-collapsed-img mb-0 mb-3">
+            
+                                                @if($server->recommendations->count() > 6)
+            
+                                                @foreach($server->recommendations as $user)
+                                                <li class="list-inline-item chat-online-usr">
+                                                    <img alt="avatar"
+                                                    src="https://cdn.discordapp.com/avatars/{{ $user->discord_id }}/{{ $user->avatar }}"
+                                                    class="ml-0">
+                                                </li>
+                                                @endforeach
+                                                
+                                                
+                                                <li class="list-inline-item badge-notify mr-0">
+                                                    <div class="notification">
+                                                        <span
+                                                        class="badge badge-info badge-pill">{{ ($server->recommendations->count() - 6)}}
+                                                        more</span>
+                                                    </div>
+                                                </li>
+                                                @else
+                                                @foreach($server->recommendations as $user)
+                                                
+                                                <li class="list-inline-item chat-online-usr">
+                                                    <img alt="avatar"
+                                                        src="https://cdn.discordapp.com/avatars/{{ $user->discordUser->discord_id }}/{{ $user->discordUser->avatar }}"
+                                                        class="ml-0  bs-tooltip" data-toggle="tooltip" data-html="false" title="{{ $user->discordUser->username }}">
+                                                </li>
+                                                @endforeach
+            
+            
+                                                @endif
+                                            </ul>
+                                            @endif
+                                        </div>
+                                        <div class="col-md-12 text-center">
+                                            @auth 
+                
+                                                @if(Auth::user()->canRecommend($server->server_id))
+                                                <button class="btn btn-sm btn-primary mr-1 ml-1 mt-1 mb-1"
+                                                data-toggle="modal"
+                                                data-target="#recommendServer{{ $server->server_id }}Modal">Recommend
+                                                Server</button>
+                                                <button class="btn btn-sm btn-primary mr-1 ml-1 mt-1 mb-1"
+                                                        data-toggle="modal"
+                                                        data-target="#joinServer{{ $server->server_id }}Modal">View Server</button>
+                                                @else 
+                                                <span class="badge badge-sm badge-success mr-1 ml-1 mt-1 mb-1">You Recommended This
+                                                    Server</span>
+                
+                                                    <button class="btn btn-sm btn-primary mr-1 ml-1 mt-1 mb-1"
+                                                    data-toggle="modal"
+                                                    data-target="#joinServer{{ $server->server_id }}Modal">View Server</button>
+                                                @endif
+                                            @else 
+                                            <button class="btn btn-sm btn-primary mr-1 ml-1 mt-1 mb-1 bs-tooltip" data-toggle="tooltip" data-html="false" title="You must be authenticated to recommend servers." disable="">Recommend Server</button>
+                                            <button class="btn btn-sm btn-primary mr-1 ml-1 mt-1 mb-1"
+                                            data-toggle="modal"
+                                            data-target="#joinServer{{ $server->server_id }}Modal">View Server</button>
+                                            
+                                            @endif
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="note-footer">
+                                    <div class="tags-selector btn-group">
+                                    
+                                        <div class="dropdown-menu dropdown-menu-right d-icon-menu">
+                                            <a class="note-personal label-group-item label-personal dropdown-item position-relative g-dot-personal" href="javascript:void(0);"> View Details</a>
+                                            <a class="note-work label-group-item label-work dropdown-item position-relative g-dot-work" href="javascript:void(0);"> Recommend Server</a>
+                                            <a class="note-social label-group-item label-social dropdown-item position-relative g-dot-social" href="javascript:void(0);"> Join Server</a>
+                                            <a class="note-important label-group-item label-important dropdown-item position-relative g-dot-important" href="javascript:void(0);"> Report Server</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                      
+                      
+                    @endforeach
+              
+                
+
 
             </div>
+
         </div>
     </div>
 
-    @endauth
+
 </div>
 
-@include('features.server.featured')
 
-<div class="row">
-
-
-
-
-    <div class="col-12 text-center" style="padding-bottom:30px">
-        <h2>Listed Servers</h2>
-    </div>
-    <div class="col-xl-12 col-lg-12">
-        <div class="table-responsive">
-            <table class="table table-bordered table-striped mb-4">
-                <thead>
-                    <tr>
-                        <th class="text-center">Server Name</th>
-                        <th class="text-center">Members</th>
-                        <th class="text-center">Channels</th>
-                        <th class="text-center">Roles</th>
-                        <th class="text-center">Recommendations</th>
-                        <th class="text-center">Action</th>
-                    </tr>
-                </thead>
-                <tbody>
-
-
-                    @if(count($data['listed_servers']) > 0)
-                    @foreach($data['listed_servers'] as $listed_server)
-                    <tr>
-                        <td>
-                            <div class="d-flex">
-                                <div class="usr-img-frame mr-2 rounded-circle">
-                                    <img alt="avatar" class="img-fluid rounded-circle"
-                                        src="https://cdn.discordapp.com/icons/{{ $listed_server->server_id }}/{{ $listed_server->icon }}"
-                                        onerror="this.src='https://cdn.discordapp.com/avatars/288445693889085440/a_14bfd48ffc41e9366e6064feda36e412';this.onerror='';">
-                                </div>
-                                <p class="align-self-center mb-0">{{ $listed_server->name }}</p>
-                            </div>
-                        </td>
-                        <td class="text-center">{{ count($listed_server->members) }}</td>
-                        <td class="text-center">{{ count($listed_server->channels) }}</td>
-                        <td class="text-center">{{ count($listed_server->roles) }}</td>
-                        <td class="text-center">{{ count($listed_server->recommendations) }}</td>
-
-
-                        @auth 
-                        <td class="text-center">
-                                @if(Auth::user()->canRecommend($listed_server->server_id))
-                                <button class="btn btn-sm btn-primary mr-1 ml-1 mt-1 mb-1"
-                                data-toggle="modal"
-                                data-target="#recommendServer{{ $listed_server->server_id }}Modal">Recommend
-                                Server</button>
-                                <button class="btn btn-sm btn-primary mr-1 ml-1 mt-1 mb-1"
-                                        data-toggle="modal"
-                                        data-target="#joinServer{{ $listed_server->server_id }}Modal">Join
-                                        Server</button>
-                                @else 
-                                <span class="badge badge-sm badge-success mr-1 ml-1 mt-1 mb-1">You Recommended This
-                                    Server</span>
-
-                                    <button class="btn btn-sm btn-primary mr-1 ml-1 mt-1 mb-1"
-                                    data-toggle="modal"
-                                    data-target="#joinServer{{ $listed_server->server_id }}Modal">Join
-                                    Server</button>
-                                @endif
-                                </td>
-                            @else 
-                            <td class="text-center">
-                            <button class="btn btn-sm btn-primary mr-1 ml-1 mt-1 mb-1 bs-tooltip" data-toggle="tooltip" data-html="false" title="You must be authenticated to recommend servers." disable="">Recommend Server</button>
-                            <button class="btn btn-sm btn-primary mr-1 ml-1 mt-1 mb-1"
-                            data-toggle="modal"
-                            data-target="#joinServer{{ $listed_server->server_id }}Modal">Join
-                            Server</button>
-                            </td>
-                            @endauth
-                    <tr>
-                        @endforeach
-                        @else
-                    <tr>
-                        <td>
-
-                        </td>
-
-                        <td class="text-center">No listenings currently,</td>
-                        <td class="text-center">be the first.</td>
-                        <td class="text-center">
-                        <td class="text-center">
-
-                        </td>
-                    <tr>
-                        @endif
-                    </tr>
-
-                </tbody>
-            </table>
-        </div>
-    </div>
-</div>
 
 @foreach($data['listed_servers'] as $listed_server)
 @include('features.server.recommend', ['server' => $listed_server])

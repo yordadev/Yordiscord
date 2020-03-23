@@ -29,7 +29,7 @@ class DiscordServer extends Model
 
     public function is_featured()
     {
-        if ($this->hasOne(FeaturedServer::class, 'server_id', 'server_id')) {
+        if (FeaturedServer::where('server_id', $this->server_id)->first()) {
             return true;
         }
         return false;

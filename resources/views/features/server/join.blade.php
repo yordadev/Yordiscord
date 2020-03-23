@@ -1,6 +1,6 @@
-<div class="modal fade login-modal" id="joinServer{{ $server->server_id }}Modal" tabindex="-1" role="dialog" aria-labelledby="joinServerModalLabel"
-    style="display: none;" aria-hidden="true">
-    <div class="modal-dialog" role="document">
+<div class="modal fade login-modal" id="joinServer{{ $server->server_id }}Modal" tabindex="-1" role="dialog"
+    aria-labelledby="joinServerModalLabel" style="display: none;" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
 
             <div class="modal-header" id="joinServerModalLabel">
@@ -14,14 +14,110 @@
                     </svg></button>
             </div>
             <div class="modal-body">
-                <form action="{{ route('join.server', ['server_id' => $server->server_id]) }}" target="_blank" method="POST" class="mt-0">
-                    @csrf
-                    <input type="hidden" value="{{ $server->server_id}}" name="server_id" id="server_id">
-                   
-                    <button type="submit" class="btn btn-primary mt-2 mb-2 btn-block">Join this Server</button>
-                </form>
-            </div>
+                <div class="row">
+                    <div class="col-12">
+
+                        <div class="card component-card_9 mb-3">
+                            
+                            <div class="card-body">
+                                
+                             <div class="row">
+                                 <div class="col-4">
+                                    <div class="card component-card_7">
+                                        <div class="card-body">
+                                            <h5 class="card-text">Members</h5>
+                                            <h6 class="rating-count"> {{ count($server->members) }}</h6>
+                                        </div>
+                                    </div>
+                                 </div>
+                                 <div class="col-4">
+                                    <div class="card component-card_7">
+                                        <div class="card-body">
+                                            <h5 class="card-text">Channels</h5>
+                                            <h6 class="rating-count">{{ count($server->channels) }}</h6>
+                                           
+                                        </div>
+                                    </div>
+                                 </div>
+                                 <div class="col-4">
+                                    <div class="card component-card_7">
+                                        <div class="card-body">
+                                            <h5 class="card-text">Roles</h5>
+                                            <h6 class="rating-count">{{ count($server->roles) }}</h6>
+                                           
+                                        </div>
+                                    </div>
+                                 </div>
+                             </div>
+                            </div>
+                        </div>
+         
+                        <div class="card component-card_9">
+
+                            <div class="card-body">
+                      
+                
+                                <h5 class="card-title">Server Recommendations</h5>
+                                <div class="meta-info">
+                                    <div class="mt-container mx-auto">
+                                        <div class="timeline-alter">
             
+                                            @foreach($server->recommendations as $recommendation)
+                                            <div class="item-timeline">
+            
+                                                <div class="t-img">
+                                                    <img alt="avatar"
+                                                        src="https://cdn.discordapp.com/avatars/{{ $recommendation->discordUser->discord_id }}/{{ $recommendation->discordUser->avatar }}"
+                                                        class="ml-0  bs-tooltip" data-toggle="tooltip" data-html="false"
+                                                        title="{{ $recommendation->discordUser->username }}">
+                                                </div>
+                                                <div class="t-meta-time">
+                                                    <p class="">{{ $recommendation->created_at->diffForHumans() }}</p>
+                                                </div>
+            
+                                                <div class="t-text">
+                                                    <p>{{ $recommendation->testimony ?? 'User left no testimony.'}}.</p>
+                                                </div>
+                                            </div>
+                                            @endforeach
+                                        </div>
+                                    </div>
+            
+                
+                                </div>
+                
+                            </div>
+                        </div>
+
+
+
+
+
+
+         
+
+                    </div>
+                </div>
+
+               
+              
+
+
+               
+            </div>
+            <div class="modal-footer">
+            <button class="btn" data-dismiss="modal"><i class="flaticon-cancel-12"></i> Close</button>
+            <form action="{{ route('join.server', ['server_id' => $server->server_id]) }}" target="_blank"
+                method="POST" class="mt-0">
+                @csrf
+                <input type="hidden" value="{{ $server->server_id}}" name="server_id" id="server_id">
+
+                <button type="submit" class="btn btn-primary mt-2 mb-2 btn-block">Join this Server</button>
+            </form>
+            
+           
+            </div>
+
         </div>
     </div>
 </div>

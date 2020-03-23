@@ -24,7 +24,9 @@ class ServerListing extends Controller
      
         $data['featured_servers'] = $this->fetchFeaturedServers();
         $data['listed_servers']   = $this->gatherServerInfo($data['listed_servers']);
-
+        $data['tags']             = $this->fetchTags();
+        $data['tagger']           = '';
+        
         return view('welcome', ['data' => $data]);
     }
 
@@ -111,13 +113,29 @@ class ServerListing extends Controller
                     $this->lastID = $members[$memberCount - 1]->user->id;
                 }
 
-
+                
+                
                 return $guildMembers;
             });
+            $listed->taggers = $this->generateTagString($listed);
         }
 
         return $listed_servers;
     }
+
+    private function generateTagString($server){
+        $settags = '';
+        
+        $settags = 'all-tags';
+        foreach($server->tags as $tag){
+            $settags = 'tag-'.$tag->tag . ' ' . $settags;
+        }
+        if($server->is_featured()){
+            $settags = 'tag-featured ' . $settags;
+        }
+        return $settags;
+    }
+
 
     private function fetchServerListings()
     {
@@ -130,6 +148,12 @@ class ServerListing extends Controller
     {
         return cache()->remember('featured_servers', 120, function () {
             return FeaturedServer::take(5)->get();
+        });
+    }
+
+    private function fetchTags(){
+        return cache()->remember('server_tags', 60, function () {
+            return ServerTag::get();
         });
     }
 
