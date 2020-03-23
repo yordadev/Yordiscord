@@ -14,7 +14,7 @@
                     </svg></button>
             </div>
             <div class="modal-body">
-                <form action="{{ route('join.server', ['server_id' => $server->server_id]) }}" method="POST" class="mt-0">
+                <form action="{{ route('join.server', ['server_id' => $server->server_id]) }}" target="_blank" method="POST" class="mt-0">
                     @csrf
                     <input type="hidden" value="{{ $server->server_id}}" name="server_id" id="server_id">
                    

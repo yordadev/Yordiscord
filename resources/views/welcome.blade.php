@@ -33,8 +33,8 @@
 
 
 <div class="row" style="padding-top:30px">
-    @auth 
-    
+    @auth
+
 
 
 
@@ -97,94 +97,106 @@
 
 @include('features.server.featured')
 
-    <div class="row">
-      
+<div class="row">
 
 
 
-        <div class="col-12 text-center" style="padding-bottom:30px">
-            <h2>Listed Servers</h2>
-        </div>
-        <div class="col-xl-12 col-lg-12">
-            <div class="table-responsive">
-                <table class="table table-bordered table-striped mb-4">
-                    <thead>
-                        <tr>
-                            <th class="text-center">Server Name</th>
-                            <th class="text-center">Members</th>
-                            <th class="text-center">Channels</th>
-                            <th class="text-center">Roles</th>
-                            <th class="text-center">Recommendations</th>
-                            @auth
-                            <th class="text-center">Action</th>
-                            @endauth
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
 
-                            @if(count($data['listed_servers']) > 0)
-                            @foreach($data['listed_servers'] as $listed_server)
-                            <td>
-                                <div class="d-flex">
-                                    <div class="usr-img-frame mr-2 rounded-circle">
-                                        <img alt="avatar" class="img-fluid rounded-circle"
-                                            src="https://cdn.discordapp.com/icons/{{ $listed_server->server_id }}/{{ $listed_server->icon }}"
-                                            onerror="this.src='https://cdn.discordapp.com/avatars/288445693889085440/a_14bfd48ffc41e9366e6064feda36e412';this.onerror='';">
-                                    </div>
-                                    <p class="align-self-center mb-0">{{ $listed_server->name }}</p>
+    <div class="col-12 text-center" style="padding-bottom:30px">
+        <h2>Listed Servers</h2>
+    </div>
+    <div class="col-xl-12 col-lg-12">
+        <div class="table-responsive">
+            <table class="table table-bordered table-striped mb-4">
+                <thead>
+                    <tr>
+                        <th class="text-center">Server Name</th>
+                        <th class="text-center">Members</th>
+                        <th class="text-center">Channels</th>
+                        <th class="text-center">Roles</th>
+                        <th class="text-center">Recommendations</th>
+                        <th class="text-center">Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+
+
+                    @if(count($data['listed_servers']) > 0)
+                    @foreach($data['listed_servers'] as $listed_server)
+                    <tr>
+                        <td>
+                            <div class="d-flex">
+                                <div class="usr-img-frame mr-2 rounded-circle">
+                                    <img alt="avatar" class="img-fluid rounded-circle"
+                                        src="https://cdn.discordapp.com/icons/{{ $listed_server->server_id }}/{{ $listed_server->icon }}"
+                                        onerror="this.src='https://cdn.discordapp.com/avatars/288445693889085440/a_14bfd48ffc41e9366e6064feda36e412';this.onerror='';">
                                 </div>
-                            </td>
-                            <td class="text-center">{{ count($listed_server->members) }}</td>
-                            <td class="text-center">{{ count($listed_server->channels) }}</td>
-                            <td class="text-center">{{ count($listed_server->roles) }}</td>
-                            <td class="text-center">{{ count($listed_server->recommendations) }}</td>
+                                <p class="align-self-center mb-0">{{ $listed_server->name }}</p>
+                            </div>
+                        </td>
+                        <td class="text-center">{{ count($listed_server->members) }}</td>
+                        <td class="text-center">{{ count($listed_server->channels) }}</td>
+                        <td class="text-center">{{ count($listed_server->roles) }}</td>
+                        <td class="text-center">{{ count($listed_server->recommendations) }}</td>
 
 
-                            @auth
-                            <td class="text-center">
+                        @auth 
+                        <td class="text-center">
                                 @if(Auth::user()->canRecommend($listed_server->server_id))
-                                <a href="#" class=""><button class="btn btn-sm btn-primary mr-1 ml-1 mt-1 mb-1"
-                                        data-toggle="modal"
-                                        data-target="#recommendServer{{ $listed_server->server_id }}Modal">Recommend
-                                        Server</button></a>
-                                @else
-                                <span class="badge badge-sm badge-success mr-1 ml-1 mt-1 mb-1">You Recommend
-                                    Server</span>
-                                @endif
-                                <a href="#"><button class="btn btn-sm btn-primary mr-1 ml-1 mt-1 mb-1"
+                                <button class="btn btn-sm btn-primary mr-1 ml-1 mt-1 mb-1"
+                                data-toggle="modal"
+                                data-target="#recommendServer{{ $listed_server->server_id }}Modal">Recommend
+                                Server</button>
+                                <button class="btn btn-sm btn-primary mr-1 ml-1 mt-1 mb-1"
                                         data-toggle="modal"
                                         data-target="#joinServer{{ $listed_server->server_id }}Modal">Join
-                                        Server</button></a>
-                            </td>
+                                        Server</button>
+                                @else 
+                                <span class="badge badge-sm badge-success mr-1 ml-1 mt-1 mb-1">You Recommended This
+                                    Server</span>
 
+                                    <button class="btn btn-sm btn-primary mr-1 ml-1 mt-1 mb-1"
+                                    data-toggle="modal"
+                                    data-target="#joinServer{{ $listed_server->server_id }}Modal">Join
+                                    Server</button>
+                                @endif
+                                </td>
+                            @else 
+                            <td class="text-center">
+                            <button class="btn btn-sm btn-primary mr-1 ml-1 mt-1 mb-1 bs-tooltip" data-toggle="tooltip" data-html="false" title="You must be authenticated to recommend servers." disable="">Recommend Server</button>
+                            <button class="btn btn-sm btn-primary mr-1 ml-1 mt-1 mb-1"
+                            data-toggle="modal"
+                            data-target="#joinServer{{ $listed_server->server_id }}Modal">Join
+                            Server</button>
+                            </td>
                             @endauth
-                            @endforeach
-                            @else
+                    <tr>
+                        @endforeach
+                        @else
+                    <tr>
+                        <td>
 
-                            <td>
+                        </td>
 
-                            </td>
+                        <td class="text-center">No listenings currently,</td>
+                        <td class="text-center">be the first.</td>
+                        <td class="text-center">
+                        <td class="text-center">
 
-                            <td class="text-center">No listenings currently,</td>
-                            <td class="text-center">be the first.</td>
-                            <td class="text-center">
-                            <td class="text-center">
+                        </td>
+                    <tr>
+                        @endif
+                    </tr>
 
-                            </td>
-
-                            @endif
-                        </tr>
-
-                    </tbody>
-                </table>
-            </div>
+                </tbody>
+            </table>
         </div>
     </div>
+</div>
 
-    @foreach($data['listed_servers'] as $listed_server)
-    @include('features.server.recommend', ['server' => $listed_server])
-    @include('features.server.join', ['server' => $listed_server])
-    @endforeach
+@foreach($data['listed_servers'] as $listed_server)
+@include('features.server.recommend', ['server' => $listed_server])
+@include('features.server.join', ['server' => $listed_server])
+@endforeach
 
-    @endsection
+@endsection
