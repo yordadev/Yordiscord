@@ -3,13 +3,16 @@
 namespace App\Http\Controllers\Account;
 
 use Illuminate\Http\Request;
+use App\Models\Server\DiscordServer;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Controller;
 use App\Models\Server\ServerRecommendation;
-
+use App\Traits\DiscordWrapper;
 
 class RecommendServer extends Controller
 {
+    use DiscordWrapper;
+
     public function process(Request $request)
     {
         $request->validate([
@@ -31,6 +34,13 @@ class RecommendServer extends Controller
                 return redirect()->back()->withErrors(['Something went wrong trying to recommend this server.']);
             }
         }
+
+        if($this->isNotListed($request->server_id)){
+            // server is not listed..
+            // list server for owner
+            return redirect()->back()->withErrors(['The server cannot be recommended until the server owner lists it.']);
+        }
+        
         return redirect()->back()->withErrors(['You have already recommended this server, thanks.']);
     }
 
@@ -38,6 +48,15 @@ class RecommendServer extends Controller
         if(ServerRecommendation::where([
             'discord_id' => Auth::user()->discord_id,
             'server_id'  => $server_id,
+        ])->first()){
+            return false;
+        }
+        return true;
+    }
+
+    private function isNotListed($server_id){
+        if(DiscordServer::where([
+            'server_id' => $server_id
         ])->first()){
             return false;
         }
