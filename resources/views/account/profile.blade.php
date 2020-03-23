@@ -127,7 +127,7 @@
                                                 </div>
                                                 <div class="col-lg-6 col-md-7 pl-0 col-sm-12 col-12 text-center">
                                                     @foreach($listed->tags as $item)
-                                                    <span class="badge badge-sm badge-info">{{ ucfirst(strtolower($item->tag)) }}</span>
+                                                    <span class="badge badge-sm badge-info mt-1">{{ ucfirst(strtolower($item->tag)) }}</span>
                                                     @endforeach
                                                 </div>
                                             </div>
