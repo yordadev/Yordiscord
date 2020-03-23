@@ -41,10 +41,6 @@ return [
             'ignore_exceptions' => false,
         ],
 
-        'larabug' => [
-            'driver' => 'larabug',
-        ],
-
         'single' => [
             'driver' => 'single',
             'path' => storage_path('logs/laravel.log'),
@@ -102,6 +98,9 @@ return [
 
         'emergency' => [
             'path' => storage_path('logs/laravel.log'),
+        ],
+        'larabug' => [
+            'driver' => 'larabug',
         ],
     ],
 
