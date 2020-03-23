@@ -6,6 +6,19 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, shrink-to-fit=no">
     <title>Yordiscord</title>
+
+    <meta name="description"
+        content="Yordiscord allows you to advertise your discord server for free & recommend other servers you like.">
+    <meta name="author" content="https://discord.yorda.dev">
+    <meta name="robots" content="noindex, nofollow">
+    <meta property="og:title" content="Yordiscord Listings">
+    <meta property="og:site_name" content="https://discord.yorda.dev">
+    <meta property="og:description"
+        content="Yordiscord allows you to advertise your discord server for free & recommend other servers you like.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://discord.yorda.dev">
+    <meta property="og:image" content="https://i.ya-webdesign.com/images/discord-logo-png-transparent-6.png">
+
     <link rel="icon" type="image/x-icon" href="{{ asset('assets/img/favicon.ico') }}" />
     <!-- BEGIN GLOBAL MANDATORY STYLES -->
     <link href="https://fonts.googleapis.com/css?family=Quicksand:400,500,600,700&display=swap" rel="stylesheet">
@@ -46,12 +59,18 @@
                 <li class="nav-item align-self-center search-animated">
                     <form class="form-inline search-full form-inline search" role="search">
                         <div class="search-bar">
-                            <input type="text" class="form-control search-form-control  ml-lg-auto" placeholder="Search...">
+                            <input type="text" class="form-control search-form-control  ml-lg-auto"
+                                placeholder="Search...">
                         </div>
                     </form>
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-search toggle-search"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                        class="feather feather-search toggle-search">
+                        <circle cx="11" cy="11" r="8"></circle>
+                        <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                    </svg>
                 </li>
-        
+
             </ul>
             @auth
             <ul class="navbar-item flex-row nav-dropdowns ml-auto">
@@ -59,7 +78,8 @@
                     <a href="javascript:void(0);" class="nav-link dropdown-toggle user" id="user-profile-dropdown"
                         data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         <div class="media">
-                            <img src="https://cdn.discordapp.com/avatars/{{ Auth::user()->discord_id }}/{{ Auth::user()->avatar }}" class="img-fluid" alt="admin-profile">
+                            <img src="https://cdn.discordapp.com/avatars/{{ Auth::user()->discord_id }}/{{ Auth::user()->avatar }}"
+                                class="img-fluid" alt="admin-profile">
                             <div class="media-body align-self-center">
                                 <h6><span>Hi,</span> {{ Auth::user()->username }}</h6>
                             </div>
@@ -74,18 +94,18 @@
                         aria-labelledby="user-profile-dropdown">
                         <div class="">
                             <div class="dropdown-item">
-                                <a class="" href="{{ route('home') }}" disabled=""><svg xmlns="http://www.w3.org/2000/svg" width="24"
-                                        height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                        stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                                        class="feather feather-user">
+                                <a class="" href="{{ route('home') }}" disabled=""><svg
+                                        xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                        stroke-linejoin="round" class="feather feather-user">
                                         <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
                                         <circle cx="12" cy="7" r="4"></circle>
                                     </svg> My Profile</a>
                             </div>
-                         
+
                             <div class="dropdown-item">
-                                <a class="" href="{{ route('logout') }}"><svg xmlns="http://www.w3.org/2000/svg" width="24"
-                                        height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                <a class="" href="{{ route('logout') }}"><svg xmlns="http://www.w3.org/2000/svg"
+                                        width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                                         stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
                                         class="feather feather-log-out">
                                         <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
@@ -98,21 +118,21 @@
 
                 </li>
             </ul>
-            @else 
-            
+            @else
+
             <ul class="navbar-item flex-row  nav-dropdowns ml-auto">
                 <li class="nav-item dropdown user-profile-dropdown order-lg-0 order-1">
-                    <a href="{{ route('discord.login')}}" class="nav-link user"
-                        aria-haspopup="true" aria-expanded="false">
+                    <a href="{{ route('discord.login')}}" class="nav-link user" aria-haspopup="true"
+                        aria-expanded="false">
                         <div class="media">
-                            
+
                             <div class="media-body align-self-center">
                                 <button class="btn btn-outline-primary">Login with Discord</button>
                             </div>
                         </div>
-                      
+
                     </a>
-                
+
 
                 </li>
             </ul>
@@ -150,12 +170,12 @@
 
 
                     @auth
-                  
+
 
                     @else
 
-                   
-                    
+
+
                     @endauth
                 </ul>
             </nav>
@@ -178,13 +198,14 @@
                         rights reserved.</p>
                 </div>
                 <div class="footer-section f-section-2">
-                    <a href="https://yorda.dev"><p class="">Coded with <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                            viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                            stroke-linecap="round" stroke-linejoin="round" class="feather feather-heart">
-                            <path
-                                d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z">
-                            </path>
-                        </svg> by Yorda<a></p>
+                    <a href="https://yorda.dev">
+                        <p class="">Coded with <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                stroke-linecap="round" stroke-linejoin="round" class="feather feather-heart">
+                                <path
+                                    d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z">
+                                </path>
+                            </svg> by Yorda<a></p>
                 </div>
             </div>
         </div>
@@ -197,7 +218,7 @@
     <script src="{{ asset('assets/js/libs/jquery-3.1.1.min.js') }}"></script>
     <script src="{{ asset('bootstrap/js/popper.min.js') }}"></script>
     <script src="{{ asset('bootstrap/js/bootstrap.min.js') }}"></script>
-    
+
     <script src="{{ asset('plugins/perfect-scrollbar/perfect-scrollbar.min.js') }}"></script>
     <script src="{{ asset('assets/js/app.js') }}"></script>
 
