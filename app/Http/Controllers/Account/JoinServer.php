@@ -2,11 +2,12 @@
 
 namespace App\Http\Controllers\Account;
 
+use Illuminate\Http\Request;
+use App\Traits\DiscordWrapper;
+use App\Models\Server\ServerLog;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Controller;
-use App\Traits\DiscordWrapper;
 use App\Models\Server\DiscordServer;
-use Illuminate\Http\Request;
 
 class JoinServer extends Controller
 {
@@ -27,6 +28,11 @@ class JoinServer extends Controller
         $server = DiscordServer::where('server_id', $request->server_id)->first();
         if ($server) {
           
+            ServerLog::create([
+                'server_id' => $server->server_id,
+                'discord_id' => Auth::user()->discord_id,
+                'action'     => 'join'
+            ]);
             return redirect()->to($server->inviteLink());
         }
    
