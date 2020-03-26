@@ -1,6 +1,6 @@
 <div class="modal fade login-modal" id="update{{ $server->server_id }}Modal" tabindex="-1" role="dialog"
     aria-labelledby="update{{ $server->server_id }}ModalLabel" style="display: none;" aria-hidden="true">
-    <div class="modal-dialog" role="document">
+    <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
 
             <div class="modal-header" id="update{{ $server->server_id }}ModalLabel">
@@ -38,7 +38,7 @@
                     </div>
                     <div class="card component-card_9 shadow-sm mb-3">
                         <div class="card-header">
-                            <img src="{{ $server->banner_url }}"  onerror="this.src='https://wallpaperaccess.com/full/1338370.jpg';this.onerror='" class="img-fluid" alt="Listing Banner Image">
+                            <img src="{{ $server->banner_url }}"  onerror="this.src='https://wallpaperaccess.com/full/1338370.jpg';this.onerror='" class="img-fluid" style="max-width: 800px; max-height:300px; height:100%; width:100%" alt="Listing Banner Image">
                         </div>
                     </div>
                     <div class="form-group">
