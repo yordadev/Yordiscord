@@ -10,4 +10,8 @@ class AvailableTag extends Model
         'tag_id',
         'tag'
     ];
+
+    public function used_by(){
+        return $this->hasMany(ServerTag::class, 'tag_id', 'tag_id')->get();
+    }
 }

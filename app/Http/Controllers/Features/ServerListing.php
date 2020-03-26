@@ -27,8 +27,34 @@ class ServerListing extends Controller
         $data['listed_servers']   = $this->gatherServerInfo($data['listed_servers']);
         $data['tags']             = $this->fetchTags();
         $data['tagger']           = '';
+        $data['empty-tagger']     = $this->createEmptyTagListString($data['tags']);
+
 
         return view('welcome', ['data' => $data]);
+    }
+
+    public function searchListings(Request $request){
+        $request->validate([
+            'q' => 'required|string|max:255|min:2'
+        ]);
+
+        $results = [];
+        $servers = DiscordServer::where('name', 'like', '%' . $request->q . '%')->orWhere('description', 'like', '%' . $request->q . '%')->get();
+
+        foreach($servers as $server){
+            array_push($results, $server);
+        }
+
+        $tags    = AvailableTag::where('tag', 'like', '%' . $request->q . '%')->get();
+        foreach($tags as $tag){
+            foreach($tag->used_by() as $server){
+                
+               array_push($results, $server->server());
+            }
+        }
+        
+        return view('results', ['data' => [ 'tags' => []], 'results'=> $this->gatherServerInfo($results), 'q' => $request->q]);
+
     }
 
     public function updateListing(Request $request)
@@ -154,20 +180,37 @@ class ServerListing extends Controller
             ];
             $availableTags = AvailableTag::get();
 
-            
-            foreach($availableTags as $available){
+            foreach ($availableTags as $available) {
+                if ($available->tag == trim($available->tag) && strpos($available->tag, ' ') !== false) {
+                    $available->tag = preg_replace('/\s+/', '-', $available->tag);
+                }
                 $available->count = ServerTag::where('tag_id', $available->tag_id)->get()->count();
             }
-
 
             return $availableTags;
         });
     }
 
+    private function createEmptyTagListString($tags)
+    {
+        $noListingTaggers = '';
+        foreach ($tags as $tag) {
+            if ($tag->count < 1) {
+                if ($tag->tag == trim($tag->tag) && strpos($tag->tag, ' ') !== false) {
+                    $tag->tag = preg_replace('/\s+/', '-', $tag->tag);
+                    $tagString = 'tag-' . $tag->tag;
+                    $noListingTaggers = $tagString . ' ' . $noListingTaggers;
+                } else {
+                    $noListingTaggers = 'tag-' . $tag->tag . ' ' . $noListingTaggers;
+                }
+            }
+        }
+
+        return $noListingTaggers;
+    }
 
     public function listServer(Request $request)
     {
-
         $request->validate([
             'server_id' => 'required',
             'description' => 'required|string|min:8|max:255',
@@ -179,8 +222,7 @@ class ServerListing extends Controller
             'bonus_additional_2' => 'nullable|string|min:2|max:255'
         ]);
 
-
-        if($request->primary_tag === 'Select a Primary Tag'){
+        if ($request->primary_tag === 'Select a Primary Tag') {
             return redirect()->back()->withErrors(['Please select a primary tag for your server listing.']);
         }
         if ($server = $this->ownsServer($request->server_id, Auth::user()->grantedAccess()->access_token)) {
@@ -251,9 +293,9 @@ class ServerListing extends Controller
 
         // check if bonus tag set
 
-        if(!is_null($bonusAd1)) {
+        if (!is_null($bonusAd1)) {
             $checkTag = AvailableTag::where('tag_id', $bonusAd1)->first();
-           
+
             if ($checkTag) {
                 // validate primary tag_id
                 if ($tag = ServerTag::where([
@@ -275,9 +317,9 @@ class ServerListing extends Controller
             }
         }
 
-        if(!is_null($bonusAd2)) {
+        if (!is_null($bonusAd2)) {
             $checkTag = AvailableTag::where('tag_id', $bonusAd2)->first();
-           
+
             if ($checkTag) {
                 // validate primary tag_id
                 if ($tag = ServerTag::where([

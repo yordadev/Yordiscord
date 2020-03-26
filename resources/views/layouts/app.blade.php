@@ -57,10 +57,11 @@
             </div>
             <ul class="navbar-item flex-row ml-auto">
                 <li class="nav-item align-self-center search-animated">
-                    <form class="form-inline search-full form-inline search" role="search">
+                    <form class="form-inline search-full form-inline search" role="search" method="POST" action="{{ route('search') }}">
+                        @csrf
                         <div class="search-bar">
                             <input type="text" class="form-control search-form-control  ml-lg-auto"
-                                placeholder="Search...">
+                                placeholder="Search..." id="q" name="q">
                         </div>
                     </form>
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"

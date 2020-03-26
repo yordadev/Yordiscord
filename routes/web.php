@@ -25,6 +25,7 @@ Route::get('oauth/discord', 'Auth\DiscordAuthentication@redirectUser')->name('di
 
 Route::group(['middleware' => ['web']], function () {
     Route::get('oauth/discord/callback', 'Auth\DiscordAuthentication@callback');
+    Route::post('/search', 'Features\ServerListing@searchListings')->name('search');
 });
 //Route::get('oauth/discord/callback', 'Auth\DiscordAuthentication@callback');
 

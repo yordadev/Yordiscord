@@ -18,8 +18,8 @@ class ServerTag extends Model
         'tag_id'
     ];
 
-    public function servers(){
-        return $this->hasMany(DiscordServer::class, 'server_id', 'server_id');
+    public function server(){
+        return $this->belongsTo(DiscordServer::class, 'server_id', 'server_id')->first();
     }
 
     public function info(){
