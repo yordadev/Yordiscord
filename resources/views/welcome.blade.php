@@ -76,10 +76,10 @@
             <div id="ct" class="note-container note-grid ">
                 
           
+                <h3 class="">Public Discord Servers</h3>
+                <hr>
                     @foreach($data['listed_servers'] as $server)
 
-                    <h3 class="">Public Discord Servers</h3>
-                    <hr>
                                  <div class="note-item {{$server->taggers}}" style="">
             
                             <div class="note-inner-content">
@@ -100,7 +100,7 @@
                                         <div class="col-md-12 mb-3">
             
                                             @if($server->recommendations->count() < 1)
-                                            <p class="text-muted">No one has recommended this server yet.</p>
+                                            <p class="text-muted mt-4 mb-4 pb-3">No one has recommended this server yet.</p>
             
                                             @else 
                                             <ul class="list-inline badge-collapsed-img mb-0 mb-3">
