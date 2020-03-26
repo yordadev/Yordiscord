@@ -11,7 +11,7 @@
     <meta name="twitter:url" value="https://yordiscord.com" />
     <meta name="twitter:title" content="Discord Server Listings | Yordiscord.com" />
     <meta name="twitter:description" content="Yordiscord allows you to advertise your discord server for free. You can find servers with tags that you are interested in and recommend them for others to see." />
-    <meta name="twitter:image" content="https://i.ya-webdesign.com/images/discord-logo-png-transparent-6.png">
+    <meta name="twitter:image" content="{{ asset('assets/img/logo.png') }}">
 
 
     <meta name="keywords" content="public discord servers, public discord server listings, discord listings, discord, discord bots, discord servers, discord server, discord emojis, discord nitro, discord login, discord music bot, discord twitter, what is discord, discord api, best discord servers, discord support, discord online, discordapp, discord reddit, yordiscord, yordadev, tags">
@@ -25,9 +25,38 @@
         content="Yordiscord allows you to advertise your discord server for free. You can find servers with tags that you are interested in and recommend them for others to see.">
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://yordiscord.com">
-    <meta property="og:image" content="https://i.ya-webdesign.com/images/discord-logo-png-transparent-6.png">
+    <meta property="og:image" content="{{ asset('assets/img/logo.png') }}">
 
     <link rel="icon" type="image/x-icon" href="{{ asset('assets/img/favicon.ico') }}" />
+
+
+
+    <link rel="apple-touch-icon" sizes="57x57" href="{{ asset('assets/img/favicon/apple-icon-57x57.png') }}">
+    <link rel="apple-touch-icon" sizes="60x60" href="{{ asset('assets/img/favicon/apple-icon-60x60.png') }}">
+    <link rel="apple-touch-icon" sizes="72x72" href="{{ asset('assets/img/favicon/apple-icon-72x72.png') }}">
+    <link rel="apple-touch-icon" sizes="76x76" href="{{ asset('assets/img/favicon/apple-icon-76x76.png') }}">
+    <link rel="apple-touch-icon" sizes="114x114" href="{{ asset('assets/img/favicon/apple-icon-114x114.png') }}">
+    <link rel="apple-touch-icon" sizes="120x120" href="{{ asset('assets/img/favicon/apple-icon-120x120.png') }}">
+    <link rel="apple-touch-icon" sizes="144x144" href="{{ asset('assets/img/favicon/apple-icon-144x144.png') }}">
+    <link rel="apple-touch-icon" sizes="152x152" href="{{ asset('assets/img/favicon/apple-icon-152x152.png') }}">
+    <link rel="apple-touch-icon" sizes="180x180" href="{{ asset('assets/img/favicon/apple-icon-180x180.png') }}">
+    <link rel="icon" type="image/png" sizes="192x192"  href="{{ asset('assets/img/favicon/android-icon-192x192.png') }}">
+    <link rel="icon" type="image/png" sizes="32x32" href="{{ asset('assets/img/favicon/favicon-32x32.png') }}">
+    <link rel="icon" type="image/png" sizes="96x96" href="{{ asset('assets/img/favicon/favicon-96x96.png') }}">
+    <link rel="icon" type="image/png" sizes="16x16" href="{{ asset('assets/img/favicon/favicon-16x16.png') }}">
+    <link rel="manifest" href="{{ asset('assets/img/favicon/manifest.json') }}">
+    <meta name="msapplication-TileColor" content="#ffffff">
+    <meta name="msapplication-TileImage" content="{{ asset('assets/img/favicon/ms-icon-144x144.png') }}">
+    <meta name="theme-color" content="#ffffff">
+
+
+
+
+
+
+
+
+
     <!-- BEGIN GLOBAL MANDATORY STYLES -->
     <link href="https://fonts.googleapis.com/css?family=Quicksand:400,500,600,700&display=swap" rel="stylesheet">
     <link href="{{ asset('bootstrap/css/bootstrap.min.css') }}" rel="stylesheet" type="text/css" />
@@ -60,7 +89,7 @@
 
             <div class="nav-logo align-self-center">
                 <a class="navbar-brand" href="{{ route('landing') }}"><img alt="logo"
-                        src="https://i.ya-webdesign.com/images/discord-logo-png-transparent-6.png"> <span
+                        src="{{ asset('assets/img/logo.png') }}"> <span
                         class="navbar-brand-name">Yordiscord</span></a>
             </div>
             <ul class="navbar-item flex-row ml-auto">
@@ -164,7 +193,7 @@
                 <ul class="navbar-nav theme-brand flex-row  text-center">
                     <li class="nav-item theme-logo">
                         <a href="{{ route('landing') }}">
-                            <img src="https://i.ya-webdesign.com/images/discord-logo-png-transparent-6.png"
+                            <img src="{{ asset('assets/img/logo.png') }}"
                                 class="navbar-logo" alt="logo">
                         </a>
                     </li>
