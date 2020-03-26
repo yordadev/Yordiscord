@@ -138,14 +138,7 @@
 
 
             @endif
-            @else
-            <button
-                class="btn btn-sm btn-primary  bs-tooltip"
-                data-toggle="tooltip" data-html="false"
-                title="You must be authenticated to recommend servers."
-                disable="">Recommend Server</button>
-           
-            @endif
+
             <form action="{{ route('join.server', ['server_id' => $server->server_id]) }}" target="_blank" method="POST"
                 class="mt-0">
                 @csrf
@@ -153,6 +146,21 @@
                 
                 <button type="submit" class="btn btn-sm btn-primary">Join Server</button>
             </form>
+
+            @else
+            <button
+                class="btn btn-sm btn-primary  bs-tooltip"
+                data-toggle="tooltip" data-html="false"
+                title="You must be authenticated to recommend servers."
+                disable="">Recommend Server</button>
+                <button
+                class="btn btn-sm btn-primary  bs-tooltip"
+                data-toggle="tooltip" data-html="false"
+                title="You must be authenticated to recommend servers."
+                disable="">Join Server</button>
+           
+            @endif
+            
 
 
         </div>
