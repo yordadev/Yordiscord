@@ -168,8 +168,7 @@
 
 
 
-                    @auth
-            
+                 
                     @if(Request::url() !== 'http://yorbot.local/profile')
 
                     <div class="tab-title d-md-none">
@@ -207,11 +206,7 @@
                     </div>
                     @endif
 
-                    @else
-
-
-
-                    @endauth
+                
                 </ul>
             </nav>
         </div>

@@ -55,7 +55,7 @@
                         <div class="card component-card_9">
                             <div class="card component-card_9 shadow-sm mb-3">
                                 <div class="card-header">
-                                    <img src="{{ $server->banner_url }}"  onerror="this.src='https://wallpaperaccess.com/full/1338370.jpg';this.onerror='" class="img-fluid" style="max-width: 800px; max-height:300px; height:100%; width:100%" alt="Listing Banner Image">
+                                    <img src="{{ $server->banner_url }}"  onerror="this.src='https://wallpaperaccess.com/full/1338370.jpg';this.onerror='" class="img-fluid" style="max-width: 800px; max-height:350px; height:100%; width:100%" alt="Listing Banner Image">
                                 </div>
                             </div>
                             <div class="card-body">
