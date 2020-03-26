@@ -167,6 +167,39 @@
                 
                 <ul class="list-unstyled menu-categories" id="topAccordion">
 
+                    @auth
+                    <li class="nav-item dropdown user-profile-dropdown mb-3 text-center order-lg-0 order-1 d-md-none">
+                        <a href="{{ route('home')}}" class="nav-link user" aria-haspopup="true"
+                            aria-expanded="false">
+                            <div class="media">
+    
+                                <div class="media-body align-self-center">
+                                    <button class="btn btn-outline-primary">Go to Profile</button>
+                                </div>
+                            </div>
+    
+                        </a>
+    
+    
+                    </li>
+                    @else 
+                    <li class="nav-item dropdown user-profile-dropdown mb-3 text-center order-lg-0 order-1 d-md-none">
+                        <a href="{{ route('discord.login')}}" class="nav-link user" aria-haspopup="true"
+                            aria-expanded="false">
+                            <div class="media">
+    
+                                <div class="media-body align-self-center">
+                                    <button class="btn btn-outline-primary">Login with Discord</button>
+                                </div>
+                            </div>
+    
+                        </a>
+    
+    
+                    </li>
+                    
+
+                    @endif
 
 
                  
@@ -175,7 +208,7 @@
                     <div class="tab-title d-md-none">
                         <div class="row">
                            
-                            <div class="col-md-12 col-sm-12 col-12 mt-5">
+                            <div class="col-md-12 col-sm-12 col-12">
                                 <ul class="nav nav-pills d-block" id="pills-tab3" role="tablist">
                                     <li class="nav-item">
                                         <a class="nav-link list-actions active" id="all-tags"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-edit"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg> All Servers</a>

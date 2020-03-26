@@ -55,7 +55,7 @@
                         <div class="card component-card_9">
                             <div class="card component-card_9 shadow-sm mb-3">
                                 <div class="card-header">
-                                    <img src="{{ $server->banner_url }}"  onerror="this.src='https://wallpaperaccess.com/full/1338370.jpg';this.onerror='" class="img-fluid" style="max-width: 800px; max-height:350px; height:100%; width:100%" alt="Listing Banner Image">
+                                    <img src="{{ $server->banner_url ?? 'wallpaperaccess.com/full/1338370.jpg' }}"  onerror="this.src='wallpaperaccess.com/full/1338370.jpg';this.onerror='';" class="img-fluid" style="max-width: 800px; max-height:350px; height:100%; width:100%" alt="Listing Banner Broken">
                                 </div>
                             </div>
                             <div class="card-body">
@@ -121,11 +121,11 @@
 
         </div>
         <div class="modal-footer">
-            <button class="btn" data-dismiss="modal"><i class="flaticon-cancel-12"></i> Close</button>
+            <button class="btn btn-sm " data-dismiss="modal"><i class="flaticon-cancel-12"></i> Close</button>
             @auth
 
             @if(Auth::user()->canRecommend($server->server_id))
-            <button class="btn  btn-primary"
+            <button class="btn  btn-sm btn-primary"
                 data-toggle="modal"
                 data-dismiss="modal"
                 data-target="#recommendServer{{ $server->server_id }}Modal">Recommend
@@ -140,7 +140,7 @@
             @endif
             @else
             <button
-                class="btn btn-primary  bs-tooltip"
+                class="btn btn-sm btn-primary  bs-tooltip"
                 data-toggle="tooltip" data-html="false"
                 title="You must be authenticated to recommend servers."
                 disable="">Recommend Server</button>
@@ -151,7 +151,7 @@
                 @csrf
                 <input type="hidden" value="{{ $server->server_id}}" name="server_id" id="server_id">
                 
-                <button type="submit" class="btn btn-primary">Join Server</button>
+                <button type="submit" class="btn btn-sm btn-primary">Join Server</button>
             </form>
 
 
