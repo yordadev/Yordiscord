@@ -27,9 +27,6 @@
     <meta property="og:url" content="https://yordiscord.com">
     <meta property="og:image" content="{{ asset('assets/img/logo.png') }}">
 
-    <link rel="icon" type="image/x-icon" href="{{ asset('assets/img/favicon.ico') }}" />
-
-
 
     <link rel="apple-touch-icon" sizes="57x57" href="{{ asset('assets/img/favicon/apple-icon-57x57.png') }}">
     <link rel="apple-touch-icon" sizes="60x60" href="{{ asset('assets/img/favicon/apple-icon-60x60.png') }}">
