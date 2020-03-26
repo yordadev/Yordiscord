@@ -3,7 +3,7 @@
 @section('content')
 @if($errors->any())
 <div class="row mt-5">
-    <div class="col-xl-8 offset-xl-2 col-md-6 offset-md 3 text-center">
+    <div class="col-sm-12 text-center">
         @foreach($errors->all() as $error)
         <div class="alert alert-arrow-right alert-icon-right alert-light-danger mb-4" role="alert">
             <button type="button" class="close" data-dismiss="alert" aria-label="Close"><svg> ... </svg></button>
@@ -17,14 +17,15 @@
 
 @if(Session::has('success'))
 <div class="row mt-5">
-    <div class="col-xl-8 offset-xl-2 col-md-6 offset-md 3 text-center">
+    <div class="col-sm-12 text-center">
 
         <div class="alert alert-arrow-right alert-icon-right alert-light-success mb-4" role="alert">
             <button type="button" class="close" data-dismiss="alert" aria-label="Close"><svg> ... </svg></button>
             <svg> ... </svg>
-            <strong class="text-black">Great news!</strong> <span class="text-black">{{ Session::get('success') }}</span>.
+            <strong class="text-black">Great news!</strong> <span
+                class="text-black">{{ Session::get('success') }}</span>.
         </div>
-      
+
     </div>
 </div>
 @endif
@@ -35,9 +36,9 @@
 
         <div class="user-profile layout-spacing">
             <div class="widget-content widget-content-area">
-              
-                    <h3 class="pb-3">Discord Account</h3>
-          
+
+                <h3 class="pb-3">Discord Account</h3>
+
                 <div class="text-center user-info">
                     <img src="https://cdn.discordapp.com/avatars/{{ Auth::user()->discord_id }}/{{ Auth::user()->avatar }}"
                         alt="avatar">
@@ -93,10 +94,6 @@
 
     <div class="col-xl-8 col-lg-6 col-md-7 col-sm-12 layout-top-spacing">
 
-
-
-
-
         <div class="bio layout-spacing ">
             <div class="widget-content widget-content-area">
                 <h3 class="">Listed Servers</h3>
@@ -112,30 +109,36 @@
 
                         @if(count($data['listed_servers']) > 0)
                         @foreach($data['listed_servers'] as $listed)
-                  
+
                         <div class="col-12 col-xl-6 col-lg-12 mb-xl-5 mb-5 ">
 
                             <div class="card component-card_8">
                                 <div class="card-body">
 
                                     <div class="progress-order">
-                                        <div class="progress-order-header">
-                                            <div class="row">
+                                        <div class="progress-order-header mb-3">
+                                            <div class="row mb-3">
                                                 <div class="col-lg-6 col-md-5 col-sm-12 col-12">
                                                     <h6 class="text-primary">{{ $listed->name ?? ' ' }}</h6>
-                                                    <p class="text-muted"> {{ $listed->description }}</p>
                                                 </div>
                                                 <div class="col-lg-6 col-md-7 pl-0 col-sm-12 col-12 text-center">
                                                     @foreach($listed->tags as $item)
-                                                    <span class="badge badge-sm badge-info mt-1">{{ ucfirst(strtolower($item->tag)) }}</span>
+
+                                                    <span
+                                                        class="badge badge-sm badge-info mt-1">{{ ucfirst(strtolower($item->info->tag)) }}</span>
                                                     @endforeach
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-sm-12">
+                                                    <p class="text-muted"> {{ $listed->description }}</p>
                                                 </div>
                                             </div>
                                         </div>
 
                                         <div class="progress-order-body">
-                                          
-                                            <div class="row mt-4">
+
+                                            <div class="row mb-3">
                                                 @if($listed->recommendations->count() > 0)
                                                 <div class="col-md-12 text-left" style="padding-bottom:10px">
                                                     <span class=" p-o-percentage mr-4">Recommended by</span>
@@ -143,49 +146,53 @@
                                                 @endif
                                                 <div class="col-md-12">
 
-                                                    @if($listed->recommendations->count() < 1)
-                                                    <p class="text-muted">No one has recommended your server yet.</p>
+                                                    @if($listed->recommendations->count() < 1) <p class="text-muted">No
+                                                        one has
+                                                        recommended your server yet.</p>
 
-                                                    @else 
-                                                    <ul class="list-inline badge-collapsed-img mb-0 mb-3">
-
-                                                        @if($listed->recommendations->count() > 6)
-
-                                                        @foreach($listed->recommendations as $user)
-                                                        <li class="list-inline-item chat-online-usr">
-                                                            <img alt="avatar"
-                                                            src="https://cdn.discordapp.com/avatars/{{ $user->discord_id }}/{{ $user->avatar }}"
-                                                            class="ml-0">
-                                                        </li>
-                                                        @endforeach
-                                                        
-                                                        
-                                                        <li class="list-inline-item badge-notify mr-0">
-                                                            <div class="notification">
-                                                                <span
-                                                                class="badge badge-info badge-pill">{{ ($listed->recommendations->count() - 6)}}
-                                                                more</span>
-                                                            </div>
-                                                        </li>
                                                         @else
-                                                        @foreach($listed->recommendations as $user)
-                                                        
-                                                        <li class="list-inline-item chat-online-usr">
-                                                            <img alt="avatar"
-                                                                src="https://cdn.discordapp.com/avatars/{{ $user->discordUser->discord_id }}/{{ $user->discordUser->avatar }}"
-                                                                class="ml-0  bs-tooltip" data-toggle="tooltip" data-html="false" title="{{ $user->discordUser->username }}">
-                                                        </li>
-                                                        @endforeach
+                                                        <ul class="list-inline badge-collapsed-img mb-0 mb-3">
+
+                                                            @if($listed->recommendations->count() > 6)
+
+                                                            @foreach($listed->recommendations as $user)
+                                                            <li class="list-inline-item chat-online-usr">
+                                                                <img alt="avatar"
+                                                                    src="https://cdn.discordapp.com/avatars/{{ $user->discord_id }}/{{ $user->avatar }}"
+                                                                    class="ml-0">
+                                                            </li>
+                                                            @endforeach
 
 
+                                                            <li class="list-inline-item badge-notify mr-0">
+                                                                <div class="notification">
+                                                                    <span
+                                                                        class="badge badge-info badge-pill">{{ ($listed->recommendations->count() - 6)}}
+                                                                        more</span>
+                                                                </div>
+                                                            </li>
+                                                            @else
+                                                            @foreach($listed->recommendations as $user)
+
+                                                            <li class="list-inline-item chat-online-usr">
+                                                                <img alt="avatar"
+                                                                    src="https://cdn.discordapp.com/avatars/{{ $user->discordUser->discord_id }}/{{ $user->discordUser->avatar }}"
+                                                                    class="ml-0  bs-tooltip" data-toggle="tooltip"
+                                                                    data-html="false"
+                                                                    title="{{ $user->discordUser->username }}">
+                                                            </li>
+                                                            @endforeach
+
+
+                                                            @endif
+                                                        </ul>
                                                         @endif
-                                                    </ul>
-                                                    @endif
                                                 </div>
                                             </div>
                                             <div class="col-md-12 text-center">
-                                               <button class="btn btn-sm btn-outline-warning" data-toggle="modal"
-                                               data-target="#update{{ $listed->server_id }}Modal">Update Listing</button>
+                                                <button class="btn btn-sm btn-outline-warning" data-toggle="modal"
+                                                    data-target="#update{{ $listed->server_id }}Modal">Update
+                                                    Listing</button>
                                             </div>
                                         </div>
                                     </div>
@@ -207,6 +214,7 @@
         </div>
 
 
+
         <div class="skills layout-spacing ">
             <div class="widget-content widget-content-area">
                 <h3 class="">Owned Servers</h3>
@@ -223,60 +231,60 @@
                         <tbody>
 
                             @if(count($data['servers']) > 1)
-                                
-                                @foreach($data['servers'] as $server)
-                                    @if($server->owner)
-                                        <tr>
-                                            <td>
-                                                <div class="d-flex">
-                                                    <div class="usr-img-frame mr-2 rounded-circle">
-                                                        <img alt="avatar" class="img-fluid rounded-circle"
-                                                            src="https://cdn.discordapp.com/icons/{{ $server->id }}/{{ $server->icon }}" onerror="this.src='https://cdn.discordapp.com/avatars/288445693889085440/a_14bfd48ffc41e9366e6064feda36e412';this.onerror='';">
-                                                    </div>
-                                                    <p class="align-self-center mb-0">{{ $server->name }}</p>
-                                                </div>
-                                            </td>
-                                            @if($server->owner)
-                                            <td class="text-center"><span
-                                                    class="badge outline-badge-success shadow-none">True</span></td>
-                                            <td class="text-center">{{ $server->permissions }}</td>
+
+                            @foreach($data['servers'] as $server)
+                            @if($server->owner)
+                            <tr>
+                                <td>
+                                    <div class="d-flex">
+                                        <div class="usr-img-frame mr-2 rounded-circle">
+                                            <img alt="avatar" class="img-fluid rounded-circle"
+                                                src="https://cdn.discordapp.com/icons/{{ $server->id }}/{{ $server->icon }}"
+                                                onerror="this.src='https://cdn.discordapp.com/avatars/288445693889085440/a_14bfd48ffc41e9366e6064feda36e412';this.onerror='';">
+                                        </div>
+                                        <p class="align-self-center mb-0">{{ $server->name }}</p>
+                                    </div>
+                                </td>
+                                @if($server->owner)
+                                <td class="text-center"><span
+                                        class="badge outline-badge-success shadow-none">True</span></td>
+                                <td class="text-center">{{ $server->permissions }}</td>
 
 
-                                            <td class="text-center">
-                                                @if(Auth::user()->canList($server->id))
-                                                <a href="#" class=""><button
-                                                        class="btn btn-sm btn-primary mr-1 ml-1 mt-1 mb-1" data-toggle="modal"
-                                                        data-target="#listServer{{$server->id}}Modal">List
-                                                        Server</button></a>
-                                                        @else 
-                                                        <span 
-                                                            class="badge badge-sm badge-success mr-1 ml-1 mt-1 mb-1">Server is Listed</span>
+                                <td class="text-center">
+                                    @if(Auth::user()->canList($server->id))
+                                    <a href="#" class=""><button class="btn btn-sm btn-primary mr-1 ml-1 mt-1 mb-1"
+                                            data-toggle="modal" data-target="#listServer{{$server->id}}Modal">List
+                                            Server</button></a>
+                                    @else
 
-                                                        @endif
-                                            </td>
+                                    <span class="badge badge-sm badge-success mr-1 ml-1 mt-1 mb-1">Server is
+                                        Listed</span>
 
-                                            @else
-                                            <td class="text-center"><span
-                                                    class="badge outline-badge-danger shadow-none">False</span></td>
-                                            <td class="text-center">{{ $server->permissions }}</td>
-
-                                            @if($server->recommended)
-                                            <td class="text-center"><span
-                                                        class="badge badge-success mr-1 ml-1 mt-1 mb-1">
-                                                        Server Recommended</span>
-                                            </td>
-                                            @else
-                                            <td class="text-center"><a href="#" class=""><button
-                                                        class="btn btn-sm btn-success mr-1 ml-1 mt-1 mb-1">Recommend
-                                                        Server</button></a>
-                                            </td>
-                                            @endif
-                                            @endif
-                                        </tr>
                                     @endif
-                                @endforeach
+                                </td>
 
-                            
+                                @else
+                                <td class="text-center"><span
+                                        class="badge outline-badge-danger shadow-none">False</span></td>
+                                <td class="text-center">{{ $server->permissions }}</td>
+
+                                @if($server->recommended)
+                                <td class="text-center"><span class="badge badge-success mr-1 ml-1 mt-1 mb-1">
+                                        Server Recommended</span>
+                                </td>
+                                @else
+                                <td class="text-center"><a href="#" class=""><button
+                                            class="btn btn-sm btn-success mr-1 ml-1 mt-1 mb-1">Recommend
+                                            Server</button></a>
+                                </td>
+                                @endif
+                                @endif
+                            </tr>
+                            @endif
+                            @endforeach
+
+
                             @endif
 
 
@@ -286,12 +294,7 @@
 
             </div>
         </div>
-
-
-        
-
     </div>
-
 </div>
 
 
@@ -304,8 +307,10 @@
 
 @endforeach
 
+
 @foreach($data['listed_servers'] as $server)
 
-@include('account.components.update', ['server' => $server])
+@include('account.components.update', ['server' => Auth::user()->server($server->server_id)])
 @endforeach
+
 @endsection

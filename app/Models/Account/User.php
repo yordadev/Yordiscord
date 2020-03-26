@@ -77,4 +77,11 @@ class User extends Authenticatable
         }
         return true;
     }
+
+    public function server($server_id){
+        return DiscordServer::where([
+            'server_id' => $server_id,
+            'discord_id' => $this->discord_id
+        ])->first();
+    }
 }

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Account;
 
 use App\Traits\DiscordWrapper;
+use App\Models\Server\AvailableTag;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Controller;
 use App\Models\Server\DiscordServer;
@@ -26,6 +27,7 @@ class Profile extends Controller
             return $this->fetchRecommendHistory();
         });
 
+        $data['tags'] = $this->fetchTags();
         foreach ($data['servers'] as $server) {
             foreach ($data['recommended'] as $recommended) {
                 if($server->id === $recommended->server_id){
@@ -39,6 +41,12 @@ class Profile extends Controller
 
         //dd($data);
         return view('account.profile', ['data' => $data]);
+    }
+
+    private function fetchTags(){
+        return cache()->remember('available_tags', 60, function () {
+            return AvailableTag::get();
+        });
     }
 
     private function fetchListedServers()

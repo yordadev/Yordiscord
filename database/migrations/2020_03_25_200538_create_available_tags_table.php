@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateServerTagsTable extends Migration
+class CreateAvailableTagsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,12 @@ class CreateServerTagsTable extends Migration
      */
     public function up()
     {
-        Schema::create('server_tags', function (Blueprint $table) {
+        Schema::create('available_tags', function (Blueprint $table) {
             $table->id();
-            $table->string('server_id');
-            $table->boolean('is_primary')->default(false);
             $table->string('tag_id');
+            $table->string('tag');
+            $table->boolean('listed')->default(false);
+            $table->integer('list_user');
             $table->timestamps();
         });
     }
@@ -29,6 +30,6 @@ class CreateServerTagsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('server_tags');
+        Schema::dropIfExists('available_tags');
     }
 }

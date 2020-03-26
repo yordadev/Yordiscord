@@ -20,6 +20,7 @@ class CreateDiscordServersTable extends Migration
             $table->string('name');
             $table->boolean('listed')->default(false);
             $table->string('code');
+            $table->longText('banner_url');
             $table->longText('description');
             $table->timestamps();
         });

@@ -23,6 +23,7 @@ class DiscordServer extends Model
         'server_id',
         'listed',
         'name',
+        'banner_url',
         'code',
         'description'
     ];
@@ -35,6 +36,13 @@ class DiscordServer extends Model
         return false;
     }
 
+    public function listed_servers(){
+        return DiscordServer::where([
+            'discord_id' => $this->discord_id,
+            'listed'    => true
+        ])->get();
+    }
+
     public function recommendations()
     {
         return $this->hasMany(ServerRecommendation::class, 'server_id', 'server_id');
@@ -43,6 +51,33 @@ class DiscordServer extends Model
     public function tags()
     {
         return $this->hasMany(ServerTag::class, 'server_id', 'server_id');
+    }
+
+    public function primary_tag()
+    {
+        return ServerTag::where([
+            'server_id' => $this->server_id,
+            'is_primary' => true
+        ])->first();
+    }
+
+    public function has_additional_tags(){
+        $check = ServerTag::where([
+            'server_id' => $this->server_id,
+            'is_primary' => false
+        ])->count();
+        if($check > 0){
+            return true;
+        }
+        return false;
+    }
+
+
+    public function additional_tags(){
+        return ServerTag::where([
+            'server_id' => $this->server_id,
+            'is_primary' => false
+        ])->get();
     }
 
     public function access()

@@ -9,6 +9,7 @@ use App\Models\Server\ServerTag;
 use App\Http\Controllers\Controller;
 use App\Models\Server\FeaturedServer;
 use App\Traits\DiscordWrapper;
+use App\Models\Server\AvailableTag;
 
 class ServerListing extends Controller
 {
@@ -21,51 +22,45 @@ class ServerListing extends Controller
     {
         $data  = [];
         $data['listed_servers']   = $this->fetchServerListings();
-     
+
         $data['featured_servers'] = $this->fetchFeaturedServers();
         $data['listed_servers']   = $this->gatherServerInfo($data['listed_servers']);
         $data['tags']             = $this->fetchTags();
         $data['tagger']           = '';
-        
+
         return view('welcome', ['data' => $data]);
     }
 
-    public function updateListing(Request $request){
+    public function updateListing(Request $request)
+    {
         $request->validate([
             'server_id' => 'required',
             'description' => 'required|string|min:8|max:255',
             'name' => 'required',
+            'banner_url' => 'required|string',
             'code' => 'required|string|max:10|min:5',
-            'tags' => 'required|string|min:2|max:255'
+            'primary_tag' => 'required|string|min:2|max:255',
+            'bonus_additional_1' => 'nullable|string|min:2|max:255',
+            'bonus_additional_2' => 'nullable|string|min:2|max:255'
         ]);
 
-        $server = DiscordServer::where([
+        if ($server = DiscordServer::where([
             'discord_id' => Auth::user()->discord_id,
             'server_id'  => $request->server_id
-        ])->first();
+        ])->first()) {
 
-  
+            $server->name = $request->name ?? $server->name;
+            $server->code = $request->code ?? $server->code;
+            $server->banner_url = $request->banner_url ?? $server->banner_url;
+            $server->description = $request->description ?? $server->description;
+            $server->save();
 
-        $server->update($request->all());
-
-        $tags = ServerTag::where([
-            'server_id' => $request->server_id
-        ])->get();
-
-        $newTags = explode(" ", $request->tags);
-
-        foreach($tags as $oldTag){
-           $oldTag->delete();
+            $this->updateOrStoreTags($request->server_id, $request->primary_tag, $request->bonus_additional_1 ?? null, $request->bonus_additional_2 ?? null);
+            return redirect()->back()->with('success', 'Server listing has been updated.');
         }
 
-        foreach($newTags as $newTag){
-            ServerTag::create([
-                'server_id' => $request->server_id,
-                'tag'       => $newTag
-            ]);
-        }
 
-        return redirect()->back()->with('success', 'Server listing has been updated.');
+        return redirect()->back()->withErrors(['Something went wrong and we could not update your listing.']);
     }
     private function gatherServerInfo($listed_servers)
     {
@@ -112,9 +107,6 @@ class ServerListing extends Controller
                     }
                     $this->lastID = $members[$memberCount - 1]->user->id;
                 }
-
-                
-                
                 return $guildMembers;
             });
             $listed->taggers = $this->generateTagString($listed);
@@ -123,14 +115,15 @@ class ServerListing extends Controller
         return $listed_servers;
     }
 
-    private function generateTagString($server){
+    private function generateTagString($server)
+    {
         $settags = '';
-        
+
         $settags = 'all-tags';
-        foreach($server->tags as $tag){
-            $settags = 'tag-'.$tag->tag . ' ' . $settags;
+        foreach ($server->tags as $tag) {
+            $settags = 'tag-' . $tag->info->tag . ' ' . $settags;
         }
-        if($server->is_featured()){
+        if ($server->is_featured()) {
             $settags = 'tag-featured ' . $settags;
         }
         return $settags;
@@ -151,23 +144,45 @@ class ServerListing extends Controller
         });
     }
 
-    private function fetchTags(){
-        return cache()->remember('server_tags', 60, function () {
-            return ServerTag::get();
+    private function fetchTags()
+    {
+        return cache()->remember('available_tags', 60, function () {
+            $tagInfo = [
+                'tag_id' => null,
+                'tag'    => null,
+                'count'  => 0
+            ];
+            $availableTags = AvailableTag::get();
+
+            
+            foreach($availableTags as $available){
+                $available->count = ServerTag::where('tag_id', $available->tag_id)->get()->count();
+            }
+
+
+            return $availableTags;
         });
     }
 
 
     public function listServer(Request $request)
     {
+
         $request->validate([
             'server_id' => 'required',
             'description' => 'required|string|min:8|max:255',
             'name' => 'required',
+            'banner_url' => 'required|string',
             'code' => 'required|string|max:10|min:5',
-            'tags' => 'required|string|min:2|max:255'
+            'primary_tag' => 'required|string|min:2|max:255',
+            'bonus_additional_1' => 'nullable|string|min:2|max:255',
+            'bonus_additional_2' => 'nullable|string|min:2|max:255'
         ]);
 
+
+        if($request->primary_tag === 'Select a Primary Tag'){
+            return redirect()->back()->withErrors(['Please select a primary tag for your server listing.']);
+        }
         if ($server = $this->ownsServer($request->server_id, Auth::user()->grantedAccess()->access_token)) {
             // owns the server
             // list server
@@ -190,30 +205,11 @@ class ServerListing extends Controller
                         'server_id'   => $request->server_id,
                         'name'        => $request->name,
                         'code'        => $request->code,
+                        'banner_url'  => $request->banner_url,
                         'description' => $request->description
                     ]);
 
-                    $tags = explode(" ", $request->tags);
-                    $cnt = 0;
-                    foreach ($tags as $item) {
-                        if ($cnt === 0) {
-                            ServerTag::create([
-                                'server_id'  => $request->server_id,
-                                'is_primary' => true,
-                                'tag'        => ucfirst($item),
-                            ]);
-                            $cnt++;
-                        } else {
-                            if ($cnt <= 3) {
-                                ServerTag::create([
-                                    'server_id'  => $request->server_id,
-                                    'is_primary' => false,
-                                    'tag'        =>  ucfirst(strtolower($item)),
-                                ]);
-                                $cnt++;
-                            }
-                        }
-                    }
+                    $this->updateOrStoreTags($request->server_id, $request->primary_tag, $request->bonus_additional_1 ?? null, $request->bonus_additional_2 ?? null);
 
 
                     $redirectURL = $this->listServerOAuthRedirectURL($request->server_id, Auth::user()->discord_id);
@@ -226,5 +222,81 @@ class ServerListing extends Controller
         // doesn't own this server.. cannot list it.
 
         return redirect()->back()->withErrors(['Could not list the server.']);
+    }
+
+    private function updateOrStoreTags($server_id, $primary, $bonusAd1, $bonusAd2)
+    {
+        if (!is_null($primary)) {
+            $primaryCheck = AvailableTag::where('tag_id', $primary)->first();
+            if ($primaryCheck) {
+                // validate primary tag_id
+                if ($tag = ServerTag::where([
+                    'server_id' => $server_id,
+                    'is_primary' => true
+                ])->first()) {
+                    // tag already set -- update the primary tag
+                    $tag->tag_id = $primary;
+                    $tag->save();
+                } else {
+                    // tag never create for primary
+                    // create the record
+                    ServerTag::create([
+                        'server_id' => $server_id,
+                        'is_primary' => true,
+                        'tag_id'     => $primary
+                    ]);
+                }
+            }
+        }
+
+        // check if bonus tag set
+
+        if(!is_null($bonusAd1)) {
+            $checkTag = AvailableTag::where('tag_id', $bonusAd1)->first();
+           
+            if ($checkTag) {
+                // validate primary tag_id
+                if ($tag = ServerTag::where([
+                    'server_id' => $server_id,
+                    'is_primary' => false,
+                    'tag_id'    => $bonusAd1,
+                ])->first()) {
+                    // tag already set -- update the primary tag
+                    $tag->tag_id = $checkTag->tag_id;
+                    $tag->save();
+                } else {
+                    // tag never create for primary
+                    // create the record
+                    ServerTag::create([
+                        'server_id' => $server_id,
+                        'tag_id'     => $checkTag->tag_id
+                    ]);
+                }
+            }
+        }
+
+        if(!is_null($bonusAd2)) {
+            $checkTag = AvailableTag::where('tag_id', $bonusAd2)->first();
+           
+            if ($checkTag) {
+                // validate primary tag_id
+                if ($tag = ServerTag::where([
+                    'server_id' => $server_id,
+                    'tag_id'    => $bonusAd2,
+                    'is_primary' => false
+                ])->first()) {
+                    // tag already set -- update the primary tag
+                    $tag->tag_id = $checkTag->tag_id;
+                    $tag->save();
+                } else {
+                    // tag never create for primary
+                    // create the record
+                    ServerTag::create([
+                        'server_id' => $server_id,
+                        'tag_id'     => $checkTag->tag_id
+                    ]);
+                }
+            }
+        }
     }
 }

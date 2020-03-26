@@ -48,7 +48,7 @@
                                 <a class="nav-link list-actions active" id="all-tags"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-edit"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg> All Servers</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link list-actions" id="tag-featured"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-star"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg> Featured Servers</a>
+                                <a class="nav-link list-actions text-primary " id="tag-featured"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-star"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg> Featured Servers</a>
                             </li>
                         </ul>
 
@@ -59,7 +59,11 @@
                         <ul class="nav nav-pills d-block group-list" id="pills-tab" role="tablist">
                             @foreach($data['tags'] as $tag)
                             <li class="nav-item">
-                                <a class="nav-link list-actions g-dot-primary" id="tag-{{ $tag->tag }}">{{ $tag->tag }}</a>
+                                @if($tag->count > 0)
+                                    <a class="nav-link list-actions g-dot-primary" id="tag-{{ $tag->tag }}"> {{ $tag->tag }} </a>
+                                @else
+                                    <a class="nav-link list-actions g-dot-danger" id="tag-{{ $tag->tag }}"> {{ $tag->tag }} </a>
+                                @endif
                             </li>
                             @endforeach
                            
@@ -69,18 +73,18 @@
             </div>
 
 
-            <div id="ct" class="note-container note-grid mt-4">
+            <div id="ct" class="note-container note-grid ">
                 
-             
-                    
+          
                     @foreach($data['listed_servers'] as $server)
 
-                
-                                 <div class="note-item {{$server->taggers}} " style="">
+                    <h3 class="">Public Discord Servers</h3>
+                    <hr>
+                                 <div class="note-item {{$server->taggers}}" style="">
             
                             <div class="note-inner-content">
                                 <div class="note-content">
-                                    <p class="note-title" data-notetitle="Meeting with Kelly">{{ $server->name }}</p>
+                                    <p class="note-title">{{ $server->name }}</p>
                                     <p class="meta-time">Updated {{ $server->updated_at->diffForHumans() }}</p>
                                     <div class="note-description-content">
                                         <p class="note-description" data-notedescription="{{ $server->description }}">{{ $server->description }}</p>
@@ -93,10 +97,10 @@
                                             <span class=" p-o-percentage mr-4">Recommended by</span>
                                         </div>
                                         @endif
-                                        <div class="col-md-12">
+                                        <div class="col-md-12 mb-3">
             
                                             @if($server->recommendations->count() < 1)
-                                            <p class="text-muted">No one has recommended your server yet.</p>
+                                            <p class="text-muted">No one has recommended this server yet.</p>
             
                                             @else 
                                             <ul class="list-inline badge-collapsed-img mb-0 mb-3">

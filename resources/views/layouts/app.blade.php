@@ -163,14 +163,49 @@
                     </li>
                 </ul>
 
+                
                 <ul class="list-unstyled menu-categories" id="topAccordion">
 
 
 
-
-
                     @auth
+            
+                    @if(Request::url() !== 'http://yorbot.local/profile')
 
+                    <div class="tab-title d-md-none">
+                        <div class="row">
+                           
+                            <div class="col-md-12 col-sm-12 col-12 mt-5">
+                                <ul class="nav nav-pills d-block" id="pills-tab3" role="tablist">
+                                    <li class="nav-item">
+                                        <a class="nav-link list-actions active" id="all-tags"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-edit"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg> All Servers</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link list-actions text-primary " id="tag-featured"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-star"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg> Featured Servers</a>
+                                    </li>
+                                </ul>
+        
+                                <hr>
+        
+                                <p class="group-section"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-tag"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7" y2="7"></line></svg> Tags</p>
+        
+                                <ul class="nav nav-pills d-block group-list" id="pills-tab" role="tablist">
+                                    @foreach($data['tags'] as $tag)
+                                    <li class="nav-item">
+                                        @if($tag->count > 0)
+                                            <a class="nav-link list-actions g-dot-primary" id="tag-{{ $tag->tag }}"> {{ $tag->tag }} </a>
+                                        @else
+                                            <a class="nav-link list-actions g-dot-danger" id="tag-{{ $tag->tag }}"> {{ $tag->tag }} </a>
+                                        @endif
+                                    </li>
+                                    @endforeach
+                                   
+                                </ul>
+                            </div>
+                        </div>
+                    
+                    </div>
+                    @endif
 
                     @else
 

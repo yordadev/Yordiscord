@@ -69,23 +69,26 @@ class DiscordAuthentication extends Controller
     }
     private function createServerAccess($access_response)
     {
+
         $server = DiscordServer::where('server_id', $access_response->guild->id)->first();
         $server->listed = true;
         $server->save();
 
 
-        if($access = ServerAccess::where('server_id', $access_response->guild->id)->first()){
+
+
+        if ($access = ServerAccess::where('server_id', $access_response->guild->id)->first()) {
             // update the access that was found
-            
+
             $access->access_token = $access_response->access_token;
             $access->expires_in = $access_response->expires_in;
             $access->refresh_token = $access_response->refresh_token;
             $access->scope         = $access_response->scope;
             $access->save();
-            
+
             return;
         }
-        
+
         ServerAccess::create([
             'server_id'     => $access_response->guild->id,
             'access_token'  => $access_response->access_token,
