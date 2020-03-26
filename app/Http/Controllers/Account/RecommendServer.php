@@ -3,11 +3,12 @@
 namespace App\Http\Controllers\Account;
 
 use Illuminate\Http\Request;
+use App\Traits\DiscordWrapper;
+use App\Models\Server\ServerLog;
 use App\Models\Server\DiscordServer;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Controller;
 use App\Models\Server\ServerRecommendation;
-use App\Traits\DiscordWrapper;
 
 class RecommendServer extends Controller
 {
@@ -27,6 +28,12 @@ class RecommendServer extends Controller
                     'server_id'  => $request->server_id,
                     'testimony'  => $request->testimony ?? null,
                     'recommended'  => true
+                ]);
+
+                ServerLog::create([
+                    'server_id' => $request->server_id,
+                    'discord_id' => Auth::user()->discord_id,
+                    'action'     => 'recommendation'
                 ]);
         
                 return redirect()->back()->with('success', 'You have successfully recommended the server.');
