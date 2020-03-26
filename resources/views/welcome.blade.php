@@ -98,7 +98,7 @@
             <div id="ct" class="note-container note-grid text-center">
 
 
-                <h3 class="text-center">Public Discord Servers</h3>
+                <h1 class="text-center">Public Discord Servers</h3>
                 <hr>
                 @foreach($data['listed_servers'] as $server)
 
