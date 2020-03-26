@@ -20,6 +20,13 @@
                         <div class="card component-card_9 mb-3">
 
                             <div class="card-body">
+                                <h5>Server Description</h5>
+                                <p>{{ $server->description }}</p>
+                            </div>
+                        </div>
+                        <div class="card component-card_9 mb-3">
+
+                            <div class="card-body">
 
                                 <div class="row">
                                     <div class="col-lg-4 col-md-12 mb-3 text-center">
