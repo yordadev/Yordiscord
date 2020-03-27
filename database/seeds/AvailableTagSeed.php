@@ -21,6 +21,13 @@ class AvailableTagSeed extends Seeder
 
         DB::table('available_tags')->insert([
             'tag_id' => 'tag_'.uniqid(),
+            'tag'    => 'Featured',
+            'listed' => false,
+            'list_user' => 1
+        ]);
+
+        DB::table('available_tags')->insert([
+            'tag_id' => 'tag_'.uniqid(),
             'tag'    => 'Software Developers',
             'listed' => true,
             'list_user' => 1
@@ -99,13 +106,6 @@ class AvailableTagSeed extends Seeder
         DB::table('available_tags')->insert([
             'tag_id' => 'tag_'.uniqid(),
             'tag'    => 'Fun',
-            'listed' => true,
-            'list_user' => 1
-        ]);
-
-        DB::table('available_tags')->insert([
-            'tag_id' => 'tag_'.uniqid(),
-            'tag'    => 'Developers',
             'listed' => true,
             'list_user' => 1
         ]);

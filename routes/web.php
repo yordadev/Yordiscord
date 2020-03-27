@@ -41,10 +41,14 @@ Route::middleware(['auth:web'])->group(function () {
      * Authenticated Dashboard
      * 
      */
+    Route::get('/billing', 'Account\Billing@index')->name('billing.index');
+    Route::post('/billing/submit', 'Account\Billing@process')->name('submit.payment');
+    
     Route::get('profile', 'Account\Profile@index')->name('home');
     Route::post('/s/recommend', 'Account\RecommendServer@process')->name('recommend.server');
     Route::post('/s/{server_id}/join', 'Account\JoinServer@process')->name('join.server');
     Route::post('/s/list/update', 'Features\ServerListing@updateListing')->name('update.server');
+
 
 
     /*

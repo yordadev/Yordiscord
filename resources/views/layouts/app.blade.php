@@ -237,7 +237,7 @@
 
 
 
-                    @if(Request::url() !== 'http://yorbot.local/profile')
+                    @if(Request::url() === 'http://yorbot.local/')
 
                     <div class="tab-title d-md-none">
                         <div class="row">

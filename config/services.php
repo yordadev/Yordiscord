@@ -35,6 +35,10 @@ return [
         'client_secret' => env('DISCORD_CLIENT_SECRET'),
         'redirect_uri'  => env('DISCORD_REDIRECT'),
     ],
+    'stripe' => [
+        'stripe_key' => env('STRIPE_KEY'),
+        'secret' => env('STRIPE_SECRET')
+    ]
     
 
 ];

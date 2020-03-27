@@ -91,51 +91,63 @@ class ServerListing extends Controller
     private function gatherServerInfo($listed_servers)
     {
         foreach ($listed_servers as $listed) {
+
             $server_id = $listed->server_id;
-
-            $listed->channels = cache()->remember('guild-' . $server_id . '-channels', 120, function () use ($server_id) {
-                return  $this->botClient()->guild->getGuildChannels(['guild.id' => (int) $server_id]);
-            });
-
-            $listed->roles = cache()->remember('guild-' . $server_id . '-roles', 30, function () use ($server_id) {
-                return $this->botClient()->guild->getGuildRoles(['guild.id' => (int) $server_id]);
-            });
-
-
-            $listed->icon = cache()->remember('guild-' . $server_id . '-icon', 30, function () use ($server_id) {
-                return $this->botClient()->guild->getGuild(['guild.id' => (int) $server_id])->icon;
-            });
-
-            $listed->members = cache()->remember('guild-' . $server_id . '-members', 120, function () use ($server_id) {
-                $guildMembers = [];
-
-                $exit = false;
-                while (!$exit) {
-                    if (!is_null($this->lastID)) {
-                        $members = $this->botClient()->guild->listGuildMembers(['guild.id' => (int) $server_id, 'limit' => 1000]);
-                    } else {
-                        $members = $this->botClient()->guild->listGuildMembers(['guild.id' => (int) $server_id, 'limit' => 1000, 'after' => $this->lastID]);
-                    }
-
-                    $memberCount = collect($members)->count();
-                    if ($memberCount <= 999) {
-                        // 1000
-                        $exit = true;
+            try {
+                $listed->channels = cache()->remember('guild-' . $server_id . '-channels', 120, function () use ($server_id) {
+                    return  $this->botClient()->guild->getGuildChannels(['guild.id' => (int) $server_id]);
+                });
+    
+                $listed->roles = cache()->remember('guild-' . $server_id . '-roles', 30, function () use ($server_id) {
+                    return $this->botClient()->guild->getGuildRoles(['guild.id' => (int) $server_id]);
+                });
+    
+    
+                $listed->icon = cache()->remember('guild-' . $server_id . '-icon', 30, function () use ($server_id) {
+                    return $this->botClient()->guild->getGuild(['guild.id' => (int) $server_id])->icon;
+                });
+    
+                $listed->members = cache()->remember('guild-' . $server_id . '-members', 120, function () use ($server_id) {
+                    $guildMembers = [];
+    
+                    $exit = false;
+                    while (!$exit) {
+                        if (!is_null($this->lastID)) {
+                            $members = $this->botClient()->guild->listGuildMembers(['guild.id' => (int) $server_id, 'limit' => 1000]);
+                        } else {
+                            $members = $this->botClient()->guild->listGuildMembers(['guild.id' => (int) $server_id, 'limit' => 1000, 'after' => $this->lastID]);
+                        }
+    
+                        $memberCount = collect($members)->count();
+                        if ($memberCount <= 999) {
+                            // 1000
+                            $exit = true;
+                            $this->count = $this->count + $memberCount;
+                            foreach ($members as $member) {
+                                array_push($guildMembers, $member);
+                            }
+                            break;
+                        }
                         $this->count = $this->count + $memberCount;
                         foreach ($members as $member) {
                             array_push($guildMembers, $member);
                         }
-                        break;
+                        $this->lastID = $members[$memberCount - 1]->user->id;
                     }
-                    $this->count = $this->count + $memberCount;
-                    foreach ($members as $member) {
-                        array_push($guildMembers, $member);
-                    }
-                    $this->lastID = $members[$memberCount - 1]->user->id;
-                }
-                return $guildMembers;
-            });
-            $listed->taggers = $this->generateTagString($listed);
+                    return $guildMembers;
+                });
+                $listed->taggers = $this->generateTagString($listed);
+            } catch(\Exception $e){
+                $listed->listed = false;
+                $listed->channels  = [];
+                $listed->roles     = [];
+                $listed->members   = [];
+                $listed->icon      = null;
+                $listed->taggers = $this->generateTagString($listed);
+
+            }
+
+     
         }
 
         return $listed_servers;

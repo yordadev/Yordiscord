@@ -2,6 +2,7 @@
 
 namespace App\Models\Account;
 
+use Laravel\Cashier\Billable;
 use App\Models\Server\DiscordServer;
 use App\Models\Account\DiscordAccess;
 use App\Models\Server\ServerRecommendation;
@@ -11,6 +12,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 class User extends Authenticatable
 {
     use Notifiable;
+    use Billable;
 
     /**
      * The attributes that are mass assignable.
